@@ -29,13 +29,14 @@ public class BootstrapService {
      * @throws SQLException
      */
     public static void CreateTable() throws  SQLException{
+        //String esto = "DROP TABLE USERS";
         String sqlUser = "CREATE TABLE IF NOT EXISTS USERS\n" +
                 "(\n" +
                 "  USERNAME VARCHAR(100) PRIMARY KEY NOT NULL,\n" +
                 "  NOMBRE VARCHAR(100) NOT NULL,\n" +
                 "  PASSWORD VARCHAR(100) NOT NULL,\n" +
-                "  ADMINISTRATOR INTEGER NOT NULL,\n" +
-                "  AUTHOR INTEGER NOT NULL\n" +
+                "  ADMINISTRATOR BOOLEAN NOT NULL,\n" +
+                "  AUTHOR BOOLEAN NOT NULL\n" +
                 ");";
         String sqlProduct = "CREATE TABLE IF NOT EXISTS PRODUCTS\n" +
                 "(\n" +
@@ -70,6 +71,7 @@ public class BootstrapService {
                 ");";
         Connection con = DatabaseService.getInstancia().getConexion();
         Statement statement = con.createStatement();
+        //statement.execute(esto);
         statement.execute(sqlUser);
         statement.execute(sqlProduct);
         statement.execute(sqlTag);

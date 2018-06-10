@@ -92,7 +92,7 @@ public class UserServices {
         Connection con = null;
         try {
 
-            String query = "insert into users(username, nombre, password, administrador, author) values(?,?,?,?,?)";
+            String query = "insert into users(username, nombre, password, administrator, author) values(?,?,?,?,?)";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
