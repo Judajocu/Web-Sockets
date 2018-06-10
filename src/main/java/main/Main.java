@@ -30,6 +30,8 @@ public class Main {
             mapa.put("name","Bienvenidos");
             return new ModelAndView(mapa, "inicio.ftl");
         }, motor);
+
+        //get("/:productid",(request, response) -> {},motor);
     }
 
 }

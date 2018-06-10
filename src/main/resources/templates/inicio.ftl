@@ -95,7 +95,7 @@
         <h2> Esto es un ejemplo</h2>
         <p class="lead">Texto</p>
         <p>mas texto</p>
-        <p><a class="btn btn-ghost">Read more</a></p>
+        <a href=""><p><a class="btn btn-ghost">Read more</a></p><a>
     </div>
 </section>
 

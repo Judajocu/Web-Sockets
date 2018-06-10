@@ -44,6 +44,8 @@ public class BootstrapService {
                 "  BODY VARCHAR(1000) NOT NULL,\n" +
                 "  AUTHOR VARCHAR(100) FOREIGN KEY NOT NULL,\n" +
                 "  DATEP CURRENT_DATE NOT NULL\n" +
+                "  COMMENTS ARRAY NOT NULL, \n" +
+                "  TAGS ARRAY NOT NULL, \n" +
                 ");";
         String sqlTag = "CREATE TABLE IF NOT EXISTS TAGS\n" +
                 "(\n" +

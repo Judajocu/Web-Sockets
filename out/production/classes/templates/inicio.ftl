@@ -30,7 +30,7 @@
 <header class="header">
     <div role="navigation" class="navbar navbar-default">
         <div class="container">
-            <div class="navbar-header"><a href="index.html" class="navbar-brand">Articulo Premium</a>
+            <div class="navbar-header"><a href="index.html" class="navbar-brand">Articulos Premium</a>
                 <div class="navbar-buttons">
                     <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle navbar-btn">Menu<i class="fa fa-align-justify"></i></button>
                 </div>
