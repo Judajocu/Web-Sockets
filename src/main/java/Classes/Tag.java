@@ -3,11 +3,14 @@ package Classes;
 public class Tag {
 
     private long id;
-    private Tag Ring;
+    private String tag;
 
-    public Tag(long id, Tag ring) {
+    public Tag(long id, String tag) {
         this.id = id;
-        Ring = ring;
+        tag = tag;
+    }
+
+    public Tag() {
     }
 
     public long getId() {
@@ -18,11 +21,9 @@ public class Tag {
         this.id = id;
     }
 
-    public Tag getRing() {
-        return Ring;
-    }
+    public String getTag() { return this.tag; }
 
-    public void setRing(Tag ring) {
-        Ring = ring;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

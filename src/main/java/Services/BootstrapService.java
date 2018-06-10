@@ -48,7 +48,7 @@ public class BootstrapService {
         String sqlTag = "CREATE TABLE IF NOT EXISTS TAGS\n" +
                 "(\n" +
                 "  ID INTEGER PRIMARY KEY NOT NULL,\n" +
-                "  RING VARCHAR(100) NOT NULL,\n" +
+                "  TAG VARCHAR(100) NOT NULL,\n" +
                 ");";
         String sqlComment = "CREATE TABLE IF NOT EXISTS COMMENTS\n" +
                 "(\n" +
