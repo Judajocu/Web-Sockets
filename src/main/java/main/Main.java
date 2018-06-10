@@ -9,11 +9,13 @@ import freemarker.template.Template;
 import spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 public class Main {
@@ -55,6 +57,31 @@ public class Main {
             mapa.put("index",index);
             return new ModelAndView(mapa,"producto.ftl");
         },motor);
+
+        /*Spark.post("product/:productid",(request, response) -> {
+            StringWriter writer = new StringWriter();
+            int index = Integer.parseInt(request.params("index"));
+            try {
+                String Nombre = request.queryParams("nombre");
+                String Apellido = request.queryParams("apellido");
+                String Matricula = request.queryParams("matricula");
+                String Telefono = request.queryParams("telefono");
+                for (Product s: ProductList) {
+                    if (ProductList.indexOf(s)==index)
+                    {
+                        s.setMatricula(Integer.parseInt(Matricula));
+                        s.setNombre(Nombre);
+                        s.setApellido(Apellido);
+                        s.setTelefono(Telefono);
+                    }
+                }
+                response.redirect("/Students/");
+            }catch (Exception e){
+                System.out.println(e);
+                response.redirect("/ModifyStudentForm/");
+            }
+            return writer;
+        });*/
 
     }
 

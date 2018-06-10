@@ -36,7 +36,7 @@ public class BootstrapService {
                 "  PASSWORD VARCHAR(100) NOT NULL,\n" +
                 "  ADMINISTRATOR INTEGER NOT NULL,\n" +
                 "  AUTHOR INTEGER NOT NULL\n" +
-                ");";
+                ")";
         String sqlProduct = "CREATE TABLE IF NOT EXISTS PRODUCTS\n" +
                 "(\n" +
                 "  ID INTEGER PRIMARY KEY NOT NULL,\n" +
@@ -46,19 +46,19 @@ public class BootstrapService {
                 "  DATEP CURRENT_DATE NOT NULL\n" +
                 "  COMMENTS ARRAY NOT NULL, \n" +
                 "  TAGS ARRAY NOT NULL, \n" +
-                ");";
+                ")";
         String sqlTag = "CREATE TABLE IF NOT EXISTS TAGS\n" +
                 "(\n" +
                 "  ID INTEGER PRIMARY KEY NOT NULL,\n" +
                 "  TAG VARCHAR(100) NOT NULL,\n" +
-                ");";
+                ")";
         String sqlComment = "CREATE TABLE IF NOT EXISTS COMMENTS\n" +
                 "(\n" +
                 "  ID INTEGER PRIMARY KEY NOT NULL,\n" +
                 "  COMMENT VARCHAR(10000) NOT NULL,\n" +
                 "  USERNAME VARCHAR(100) FOREIGN KEY NOT NULL,\n" +
                 "  PRODUCT INTEGER FOREIGN KEY NOT NULL,\n" +
-                ");";
+                ")";
         Connection con = DatabaseService.getInstancia().getConexion();
         Statement statement = con.createStatement();
         statement.execute(sqlUser);
