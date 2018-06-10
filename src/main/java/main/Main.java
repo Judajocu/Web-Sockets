@@ -27,7 +27,7 @@ public class Main {
 
         get("/", (request, response) -> {
             Map<String, Object> mapa = new HashMap<>();
-            mapa.put("name","Melissa Lantigua - 2014-0805");
+            mapa.put("name","Bienvenidos");
             return new ModelAndView(mapa, "inicio.ftl");
         }, motor);
     }
