@@ -8,6 +8,9 @@
 <section>
     <div class="container">
         <div class="borde">
+            <br/>
+            <center><h2> Iniciar sesion </h2></center>
+            <br/>
                             <form  method="post">
                                 <div class="form-group">
                                     <input  type="text" placeholder="username" class="form-control" name="username">
