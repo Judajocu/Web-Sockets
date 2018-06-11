@@ -60,16 +60,14 @@ public class Main {
             servicios_user.CreateUser(insertar);
         }
 
-        List<User> usuarios = servicios_user.UserList();
-
-        new Main().manejadorFremarker(usuarios);
+        new Main().manejadorFremarker();
 
         //BootstrapService.stopDb();
 
 
     }
 
-    public void manejadorFremarker(List usuarios)throws SQLException{
+    public void manejadorFremarker()throws SQLException{
 
         //
 
@@ -92,7 +90,6 @@ public class Main {
 
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("name","Bienvenidos");
-            mapa.put("lista",usuarios);
             mapa.put("userl",user);
             return new ModelAndView(mapa, "inicio.ftl");
         }, motor);
@@ -139,6 +136,27 @@ public class Main {
             response.redirect("/");
             return "";
         });
+
+        get("/userlist", (request, response) -> {
+            User user= request.session(true).attribute("user");
+            UserServices servicios_user= new UserServices();
+            List<User> usuarios = servicios_user.UserList();
+
+
+            Map<String, Object> mapa = new HashMap<>();
+            mapa.put("lista",usuarios);
+            mapa.put("userl",user);
+            return new ModelAndView(mapa, "esto.ftl");
+        }, motor);
+
+        get("/product", (request, response) -> {
+            User user= request.session(true).attribute("user");
+
+
+            Map<String, Object> mapa = new HashMap<>();
+            mapa.put("userl",user);
+            return new ModelAndView(mapa, "inicio.ftl");
+        }, motor);
 
         get("product/:productid",(request, response) -> {
             int productid = Integer.parseInt(request.params("productid"));

@@ -8,20 +8,30 @@
 <div class="jumbotron main-jumbotron">
     <div class="container">
         <div class="content">
-            <h1>Practica #3</h1>
-            <p class="margin-bottom">Juan Joa y Melissa </p>
-            <p><a href="#" class="btn btn-white">Learn more</a></p>
+            <h1>Usuarios</h1>
+            <p class="margin-bottom">Aqui se mostraran la cantidad de usuarios actuales de la pagina </p>
         </div>
     </div>
 </div>
 <section>
     <div class="container">
         <div class="borde">
-            <h2> Esto es un ejemplo 2</h2>
-            <p class="lead">Texto 2</p>
-            <p>mas texto 2</p>
-            <p><a class="btn btn-ghost">Read more 2</a></p>
-
+            <center>
+            <h2> Usuarios registrados en la pagina</h2>
+            <p class="lead"><h5>Cantidad de usuario: ${lista?size}</h5></p>
+            <p>mas texto</p>
+            <p>
+            <table>
+                <tr><th>username</th><th>Nombre</th><th>password</th></tr>
+                <#list lista as user>
+                <tr><td>${user.username}</td><td>${user.nombre}</td><td>${user.password}</td></tr>
+                </#list>
+            </table>
+            </p>
+             <#if userl??>
+                 <h5>usuario registrado: ${userl.username}</h5>
+             </#if>
+            </center>
         </div>
     </div>
 </section>

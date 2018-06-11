@@ -42,8 +42,8 @@
             </div>
             <div id="navigation" class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li><a href="text.html">Text page</a></li>
+                    <li class="active"><a href="/">Home</a></li>
+                    <li><a href="/userlist">Usuarios</a></li>
                     <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Dropdown item 1</a></li>
