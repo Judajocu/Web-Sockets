@@ -28,6 +28,9 @@
                     <label for="contenido" ><h4> Contenido: </h4></label><br/>
                     <textarea id = "contenido" name="body"  class="form-control" style="width: 950px;"rows="8" placeholder="Escriba aqui el contenido" required></textarea>
                 <br/>
+                    <label for="equiqueta" ><h4> Etiquetas (ejemplo: etiqueta 1, etiqueta 2, etiqueta 2,...)</h4></label><br/>
+                <input id = "equiqueta"name="tag" type="text" style="width: 450px;" class="form-control" placeholder="Escriba aqui las etiquetas" required/><br/>
+                <br/>
         </div>
             </div>
         <div class="container">

@@ -18,17 +18,7 @@
                      <h5>usuario registrado: ${userl.username}</h5>
 
     <section>
-        <div class="container">
-            <div class="borde">
 
-                <h2> Esto es un ejemplo</h2>
-                <p class="lead">Texto</p>
-                <p>mas texto</p>
-                <p><a class="btn btn-ghost">Read more</a></p>
-
-            </div>
-        </div>
-        
     </section>
         </#if>
     <#else>
