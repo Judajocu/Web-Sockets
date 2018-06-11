@@ -139,12 +139,8 @@ public class Main {
 
         get("/userlist", (request, response) -> {
             User user= request.session(true).attribute("user");
-            UserServices servicios_user= new UserServices();
-            List<User> usuarios = servicios_user.UserList();
-
 
             Map<String, Object> mapa = new HashMap<>();
-            mapa.put("lista",usuarios);
             mapa.put("userl",user);
             return new ModelAndView(mapa, "esto.ftl");
         }, motor);

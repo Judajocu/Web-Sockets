@@ -9,30 +9,42 @@
     <div class="container">
         <div class="content">
             <h1>Usuarios</h1>
-            <p class="margin-bottom">Aqui se mostraran la cantidad de usuarios actuales de la pagina </p>
+            <p class="margin-bottom">Aqui se Administran los usuarios</p>
         </div>
     </div>
 </div>
+    <#if userl??>
+        <#if userl.administrator>
+                     <h5>usuario registrado: ${userl.username}</h5>
+
+    <section>
+        <div class="container">
+            <div class="borde">
+
+                <h2> Esto es un ejemplo</h2>
+                <p class="lead">Texto</p>
+                <p>mas texto</p>
+                <p><a class="btn btn-ghost">Read more</a></p>
+
+            </div>
+        </div>
+        
+    </section>
+        </#if>
+    <#else>
 <section>
     <div class="container">
         <div class="borde">
-            <center>
-            <h2> Usuarios registrados en la pagina</h2>
-            <p class="lead"><h5>Cantidad de usuario: ${lista?size}</h5></p>
-            <p>mas texto</p>
-            <p>
-            <table>
-                <tr><th>username</th><th>Nombre</th><th>password</th></tr>
-                <#list lista as user>
-                <tr><td>${user.username}</td><td>${user.nombre}</td><td>${user.password}</td></tr>
-                </#list>
-            </table>
-            </p>
-             <#if userl??>
-                 <h5>usuario registrado: ${userl.username}</h5>
-             </#if>
-            </center>
+
+            <h2> Lo sentimos, usted no esta logueado para tener accedo a esta opcion </h2>
+            <p class="lead">Por favor registrarse para tener acceso a esta función</p>
+
         </div>
     </div>
+    <div class="container">
+        <p><a href="/" class="btn btn-ghost">Volver</a></p>
+    </div>
 </section>
+    </#if>
+
 </#macro>
