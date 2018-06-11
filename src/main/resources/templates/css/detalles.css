@@ -5,3 +5,9 @@
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+.sobre {
+    color: #3155ff;
+    font-weight: bold;
+    text-decoration: underline;
+}

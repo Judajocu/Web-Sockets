@@ -55,7 +55,7 @@ public class Main {
         insertar.setNombre("Carla");
         insertar.setPassword("123");
         insertar.setAuthor(true);
-        insertar.setAdministrator(true);
+        insertar.setAdministrator(false);
         if(servicios_user.getUser(insertar.getUsername())==null){
             servicios_user.CreateUser(insertar);
         }
@@ -65,7 +65,6 @@ public class Main {
         new Main().manejadorFremarker(usuarios);
 
         //BootstrapService.stopDb();
-        System.out.println("datos");
 
 
     }
@@ -111,18 +110,18 @@ public class Main {
             String username =request.queryParams("username") != null ? request.queryParams("username") : "unknown";
             String pass =request.queryParams("username") != null ? request.queryParams("pass") : "unknown";
 
-            User user = encontrarUser(request.queryParams("username"));
+            User user = encontrarUser(username);
             //System.out.println("usuario "+ user.getUsername());
             if(user!=null){
                 System.out.println("usuario yes");
-                //if(user.getPassword()==pass) {
+                if(user.getPassword().equals(pass)) {
 
                     request.session(true);
                     request.session().attribute("user", user);
                     response.redirect("/");
-                //} else{
-                //    response.redirect("/");
-                //}
+                } else{
+                    response.redirect("/");
+                }
 
             }else{
                 response.redirect("/");
@@ -131,6 +130,14 @@ public class Main {
 
             return "";
 
+        });
+
+        Spark.get("/logout", (request, response) -> {
+
+            Session actual = request.session(true);
+            actual.invalidate();
+            response.redirect("/");
+            return "";
         });
 
         get("product/:productid",(request, response) -> {

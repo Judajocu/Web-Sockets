@@ -35,7 +35,7 @@
 <header class="header">
     <div role="navigation" class="navbar navbar-default">
         <div class="container">
-            <div class="navbar-header"><a href="index.html" class="navbar-brand">Articulos Premium</a>
+            <div class="navbar-header"><a href="/" class="navbar-brand">Articulos Premium</a>
                 <div class="navbar-buttons">
                     <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle navbar-btn">Menu<i class="fa fa-align-justify"></i></button>
                 </div>
@@ -53,7 +53,14 @@
                         </ul>
                     </li>
                     <li><a href="contact.html">Contact</a></li>
-                </ul><a href="/login" class="btn navbar-btn btn-ghost"><i class="fa fa-sign-in"></i>Log in</a>
+                    <#if userl??>
+                        <a href="#" class="btn navbar-btn btn-ghost"><h4><i class="	fa fa-user">${userl.username}</i></h4></a>
+                        <a href="/logout" class="btn navbar-btn btn-ghost"><i class="fa fa-sign-in"></i>Log out</a>
+                    <#else>
+                <a href="/login" class="btn navbar-btn btn-ghost"><i class="fa fa-sign-in"></i>Log in</a>
+                    </#if>
+                </ul>
+
             </div>
         </div>
     </div>
