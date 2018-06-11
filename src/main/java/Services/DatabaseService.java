@@ -1,5 +1,7 @@
 package Services;
 
+import org.h2.tools.Server;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -44,6 +46,7 @@ public class DatabaseService {
         Connection con = null;
         try {
             con = DriverManager.getConnection(URL, "sa", "");
+            //Server.createTcpServer("-tcpPort", "9092", "-tcpAllowOthers").start();
         } catch (SQLException ex) {
             Logger.getLogger(UserServices.class.getName()).log(Level.SEVERE, null, ex);
         }

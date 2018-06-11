@@ -31,6 +31,10 @@
                 </#list>
             </table>
             </p>
+             <#if userl??>
+                 <h5>usuario registrado: ${userl.username}</h5>
+             </#if>
+
         </div>
     </div>
 </section>

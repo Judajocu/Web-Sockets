@@ -56,13 +56,16 @@ public class UserServices {
         try {
             //utilizando los comodines (?)...
             String query = "select * from users where username = ?";
+            System.out.println("por aqui ");
             con = DatabaseService.getInstancia().getConexion();
             //
+            System.out.println("sigue ");
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
             prepareStatement.setString(1, username);
             //Ejecuto...
             ResultSet rs = prepareStatement.executeQuery();
+            System.out.println("ya no ");
             while(rs.next()){
                 user = new User();
                 user.setUsername(rs.getString("username"));
@@ -72,15 +75,10 @@ public class UserServices {
                 user.setAuthor(rs.getBoolean("author"));
 
             }
+            con.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(UserServices.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                con.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(UserServices.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            System.out.println(ex.getMessage());
         }
 
         return user;

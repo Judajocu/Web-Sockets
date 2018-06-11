@@ -53,38 +53,14 @@
                         </ul>
                     </li>
                     <li><a href="contact.html">Contact</a></li>
-                </ul><a href="#" data-toggle="modal" data-target="#login-modal" class="btn navbar-btn btn-ghost"><i class="fa fa-sign-in"></i>Log in</a>
+                </ul><a href="/login" class="btn navbar-btn btn-ghost"><i class="fa fa-sign-in"></i>Log in</a>
             </div>
         </div>
     </div>
 </header>
 <!-- *** LOGIN MODAL ***_________________________________________________________
 -->
-<div id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
-                <h4 id="Login" class="modal-title">Customer login</h4>
-            </div>
-            <div class="modal-body">
-                <form action="customer-orders.html" method="post">
-                    <div class="form-group">
-                        <input id="email_modal" type="text" placeholder="email" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input id="password_modal" type="password" placeholder="password" class="form-control">
-                    </div>
-                    <p class="text-center">
-                        <button type="button" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
-                    </p>
-                </form>
-                <p class="text-center text-muted">Not registered yet?</p>
-                <p class="text-center text-muted"><a href="#"><strong>Register now</strong></a>! It is easy and done in 1 minute and gives you access to special discounts and much more!</p>
-            </div>
-        </div>
-    </div>
-</div>
+
 <!-- *** LOGIN MODAL END ***-->
 <@page_body/>
 
