@@ -29,7 +29,7 @@ public class BootstrapService {
      * @throws SQLException
      */
     public static void CreateTable() throws  SQLException{
-        //String esto = "DROP TABLE USERS";
+        //String esto = "DROP TABLE PRODUCTS";
         String sqlUser = "CREATE TABLE IF NOT EXISTS USERS\n" +
                 "(\n" +
                 "  USERNAME VARCHAR(100) PRIMARY KEY NOT NULL,\n" +
@@ -40,7 +40,7 @@ public class BootstrapService {
                 ");";
         String sqlProduct = "CREATE TABLE IF NOT EXISTS PRODUCTS\n" +
                 "(\n" +
-                "  ID INTEGER PRIMARY KEY,\n" +
+                "  ID INTEGER PRIMARY KEY AUTO_INCREMENT,\n" +
                 "  TITLE VARCHAR(100) NOT NULL,\n" +
                 "  BODY VARCHAR(1000) NOT NULL,\n" +
                 "  AUTHOR VARCHAR(100) NOT NULL,\n" +

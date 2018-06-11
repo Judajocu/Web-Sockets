@@ -16,22 +16,24 @@
 <center>
 <#if userl??>
     <#if userl.author>
-                     <h5>usuario registrado: ${userl.username}</h5>
-
     <section>
-        <div class="container">
+        <form method="POST" action="/add">
+         <div class="container">
             <div class="borde">
 
-                <h2> Esto es un ejemplo</h2>
-                <p class="lead">Texto</p>
-                <p>mas texto</p>
-                <p><a class="btn btn-ghost">Read more</a></p>
-
+                <h2> Articulo a crear</h2>
+                    <label for="titulo" ><h4> Titulo: </h4></label><br/>
+                    <input id = "titulo"name="title" type="text" style="width: 450px;" class="form-control" placeholder="Escriba aqui el titulo" required/><br/>
+                <br/>
+                    <label for="contenido" ><h4> Contenido: </h4></label><br/>
+                    <textarea id = "contenido" name="body"  class="form-control" style="width: 950px;"rows="8" placeholder="Escriba aqui el contenido" required></textarea>
+                <br/>
+        </div>
             </div>
-        </div>
         <div class="container">
-            <p><a href="#" class="btn btn-ghost">crear</a></p>
+            <p><button type="submit" class="btn btn-ghost">Crear</button></p>
         </div>
+        </form>
     </section>
     <#else>
     <section>
