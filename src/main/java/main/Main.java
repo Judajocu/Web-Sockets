@@ -155,7 +155,7 @@ public class Main {
 
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("userl",user);
-            return new ModelAndView(mapa, "inicio.ftl");
+            return new ModelAndView(mapa, "crearproduct.ftl");
         }, motor);
 
         get("product/:productid",(request, response) -> {

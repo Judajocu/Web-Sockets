@@ -16,6 +16,9 @@
 </div>
 <section>
     <div class="container">
+            <center><p><a href="/product" class="btn btn-ghost">crear producto</a></p></center>
+    </div>
+    <div class="container">
         <div class="borde">
             <h2> Esto es un ejemplo</h2>
             <p class="lead">Texto</p>
