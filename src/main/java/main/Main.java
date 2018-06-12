@@ -235,21 +235,24 @@ public class Main {
             String username = request.params("username");
             UserServices servicios_user= new UserServices();
             List<User> usuarios = servicios_user.UserList();
+            User user = new User();
             int index = 0;
             for (User usr: usuarios) {
                 if(usr.getUsername().equalsIgnoreCase(username))
                 {
                     index = usuarios.indexOf(usr);
+                    user = usr;
                 }
             }
 
             Map<String,Object> mapa = new HashMap<>();
             mapa.put("index",index);
+            mapa.put("user",user);
             return new ModelAndView(mapa, "editUser.ftl");
 
         }, motor);
 
-        Spark.post("/editaruser/:index", (request, response) -> {
+        Spark.post("/editaruser/:index/:user", (request, response) -> {
             StringWriter writer = new StringWriter();
             UserServices servicios_user= new UserServices();
             List<User> usuarios = servicios_user.UserList();
@@ -291,6 +294,45 @@ public class Main {
             }catch (Exception e){
                 System.out.println(e);
                 response.redirect("/editaruser/");
+            }
+            return writer;
+        });
+
+        get("/AddUserForm/", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            return new ModelAndView(attributes, "Formulario.ftl");
+        }, motor);
+
+        Spark.post("/AddUser/", (request, response) -> {
+            StringWriter writer = new StringWriter();
+            UserServices servicios_user= new UserServices();
+            try {
+                String Username = request.queryParams("username");
+                String Nombre = request.queryParams("nombre");
+                String Password = request.queryParams("password");
+                String Author = request.queryParams("author");
+                String Administrator = request.queryParams("administrator");
+                boolean author=false;
+                boolean administrator=false;
+                if(Author.equalsIgnoreCase(null))
+                {
+                    author=false;
+                } else if(Author.equalsIgnoreCase("on"))
+                {
+                    author=true;
+                }
+                if(Administrator.equalsIgnoreCase(null))
+                {
+                    administrator=false;
+                } else if(Administrator.equalsIgnoreCase("on"))
+                {
+                    administrator=true;
+                }
+                servicios_user.CreateUser(new User(Username,Nombre,Password,author,administrator));
+                response.redirect("/usrlist/");
+            }catch (Exception e){
+                System.out.println(e);
+                response.redirect("/AddUserForm/");
             }
             return writer;
         });
