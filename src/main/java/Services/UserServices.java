@@ -56,16 +56,13 @@ public class UserServices {
         try {
             //utilizando los comodines (?)...
             String query = "select * from users where username = ?";
-            System.out.println("por aqui ");
             con = DatabaseService.getInstancia().getConexion();
             //
-            System.out.println("sigue ");
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
             prepareStatement.setString(1, username);
             //Ejecuto...
             ResultSet rs = prepareStatement.executeQuery();
-            System.out.println("ya no ");
             while(rs.next()){
                 user = new User();
                 user.setUsername(rs.getString("username"));

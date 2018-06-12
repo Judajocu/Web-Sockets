@@ -59,6 +59,27 @@ public class Main {
             servicios_user.CreateUser(insertar);
         }
 
+        TagServices prueb=new TagServices();
+        List<Tag> list = prueb.TagList();
+        System.out.println("La cantidad de articulo: "+list.size());
+        for(Tag est : list){
+            System.out.println("La matricula: "+est.getId()+" title: "+ est.getTag());
+        }
+
+        productServices prueba=new productServices();
+        List<Product> lista = prueba.ProductList();
+        System.out.println("La cantidad de articulo: "+lista.size());
+        for(Product est : lista){
+            System.out.println("La matricula: "+est.getId()+" title: "+ est.getTitle()+",Autor"+est.getAuthor().getUsername()+",fecha"+est.getDateTime());
+        }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.now();
+        System.out.println(dtf.format(localDate).toString());
+
+        Date today = Calendar.getInstance().getTime();
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        System.out.println(sqlDate);
         new Main().manejadorFremarker();
 
         //BootstrapService.stopDb();
@@ -153,7 +174,7 @@ public class Main {
             return new ModelAndView(mapa, "crearproduct.ftl");
         }, motor);
 
-        get("/add", (request, response) -> {
+        post("/add", (request, response) -> {
             User user= request.session(true).attribute("user");
 
             String title =request.queryParams("title");
