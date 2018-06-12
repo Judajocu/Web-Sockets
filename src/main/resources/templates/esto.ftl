@@ -14,7 +14,7 @@
     </div>
 </div>
     <#if userl??>
-        <#if userl.administrator?c>
+        <#if userl.administrator>
                      <h5>usuario registrado: ${userl.username}</h5>
 
     <section>
