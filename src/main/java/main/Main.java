@@ -1,17 +1,12 @@
 package main;
 
 import freemarker.template.Configuration;
-import freemarker.template.Template;
 import spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
-import spark.Request;
-import spark.Response;
 import spark.Session;
 
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static spark.Spark.get;
@@ -22,14 +17,11 @@ import Classes.User;
 import Classes.Comment;
 import Classes.Tag;
 import Classes.Product;
-import Services.CommentServices;
 import Services.TagServices;
 import Services.BootstrapService;
 import Services.DatabaseService;
 import Services.productServices;
 import Services.UserServices;
-
-import javax.jws.soap.SOAPBinding;
 
 public class Main {
     public static void main(String[] args)throws SQLException {
@@ -236,49 +228,69 @@ public class Main {
 
         },motor);
 
-        get("/editaruser/:username", (request,response) -> {
+        get("/editaruserForm/:username", (request,response) -> {
 
             String username = request.params("username");
             UserServices servicios_user= new UserServices();
             List<User> usuarios = servicios_user.UserList();
-
+            int index = 0;
             for (User usr: usuarios) {
                 if(usr.getUsername().equalsIgnoreCase(username))
                 {
-                    usr.setAdministrator(true);
-                    servicios_user.UpdateUser(usr);
+                    index = usuarios.indexOf(usr);
                 }
             }
 
             Map<String,Object> mapa = new HashMap<>();
-            return new ModelAndView(mapa,"administratorUser.ftl");
+            mapa.put("index",index);
+            return new ModelAndView(mapa, "templates/editUser.ftl");
 
         }, motor);
 
-        /*Spark.post("product/:productid",(request, response) -> {
+        Spark.post("/editaruser/:index", (request, response) -> {
             StringWriter writer = new StringWriter();
+            UserServices servicios_user= new UserServices();
+            List<User> usuarios = servicios_user.UserList();
             int index = Integer.parseInt(request.params("index"));
             try {
+                String Username = request.queryParams("username");
                 String Nombre = request.queryParams("nombre");
-                String Apellido = request.queryParams("apellido");
-                String Matricula = request.queryParams("matricula");
-                String Telefono = request.queryParams("telefono");
-                for (Product s: ProductList) {
-                    if (ProductList.indexOf(s)==index)
+                String Password = request.queryParams("password");
+                String Author = request.queryParams("author");
+                String Administrator = request.queryParams("administrator");
+                boolean author=false;
+                boolean administrator=false;
+                if(Author.equalsIgnoreCase(null))
+                {
+                    author=false;
+                } else if(Author.equalsIgnoreCase("on"))
+                {
+                    author=true;
+                }
+                if(Administrator.equalsIgnoreCase(null))
+                {
+                    administrator=false;
+                } else if(Administrator.equalsIgnoreCase("on"))
+                {
+                    administrator=true;
+                }
+                for (User s: usuarios) {
+                    if (usuarios.indexOf(s)==index)
                     {
-                        s.setMatricula(Integer.parseInt(Matricula));
+                        s.setUsername(Username);
                         s.setNombre(Nombre);
-                        s.setApellido(Apellido);
-                        s.setTelefono(Telefono);
+                        s.setPassword(Password);
+                        s.setAuthor(author);
+                        s.setAdministrator(administrator);
                     }
                 }
-                response.redirect("/Students/");
+                response.redirect("/userlist/");
             }catch (Exception e){
                 System.out.println(e);
-                response.redirect("/ModifyStudentForm/");
+                response.redirect("/editaruser/");
             }
             return writer;
-        });*/
+        });
 
     }
 
