@@ -10,10 +10,9 @@ import spark.Session;
 
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -153,6 +152,26 @@ public class Main {
             mapa.put("userl",user);
             return new ModelAndView(mapa, "crearproduct.ftl");
         }, motor);
+
+        get("/add", (request, response) -> {
+            User user= request.session(true).attribute("user");
+
+            String title =request.queryParams("title");
+            String body =request.queryParams("body");
+            String[] tags =request.queryParams("tag").split(",");
+            Date today = Calendar.getInstance().getTime();
+
+            productServices ps=new productServices();
+            Product insertar = new Product();
+            insertar.setAuthor(user);
+            insertar.setTitle(title);
+            insertar.setBody(body);
+            insertar.setDateTime(today);
+            ps.CreateProduct(insertar);
+
+            response.redirect("/");
+            return "";
+        });
 
         get("product/:productid",(request, response) -> {
             int productid = Integer.parseInt(request.params("productid"));

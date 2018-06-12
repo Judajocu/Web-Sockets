@@ -6,6 +6,8 @@ import Classes.Tag;
 import Classes.User;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -99,18 +101,19 @@ public class productServices {
         Connection con = null;
         try {
 
-            String query = "insert into products(id, title, body, author, datep, comments, tags) values(?,?,?,?,?,?,?)";
+            String query = "insert into products(title, body, author, datep) values(?,?,?,?)";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setLong(1, product.getId());
-            prepareStatement.setString(2, product.getTitle());
-            prepareStatement.setString(3, product.getBody());
-            prepareStatement.setObject(4, product.getAuthor());
-            prepareStatement.setDate(5, (Date) product.getDateTime());
-            prepareStatement.setArray(6, (Array) product.getComments());
-            prepareStatement.setArray(7, (Array) product.getTags());
+            //prepareStatement.setLong(1, product.getId());
+            prepareStatement.setString(1, product.getTitle());
+            prepareStatement.setString(2, product.getBody());
+            prepareStatement.setObject(3, product.getAuthor());
+            prepareStatement.setDate(4, (Date) product.getDateTime());
+            //prepareStatement.setDate(4, (Date) product.getDateTime());
+            //prepareStatement.setArray(6, (Array) product.getComments());
+            //prepareStatement.setArray(7, (Array) product.getTags());
 
             //
             int fila = prepareStatement.executeUpdate();
