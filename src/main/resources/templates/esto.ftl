@@ -14,7 +14,7 @@
     </div>
 </div>
     <#if userl??>
-        <#if userl.administrator>
+        <#if userl.administrator?c>
                      <h5>usuario registrado: ${userl.username}</h5>
 
     <section>
@@ -32,14 +32,12 @@
                 <td>${user.nombre}</td>
                 <td>${user.password}</td>
                 <td>${user.administrator?string('si','no')}</td>
-                <td><a href="/administrador/${user.username}"><button name="Eliminar" type="submit">Adminsitrador</button></a></td>
+                <td><a href="/editaruser/${user.username}"><button name="Editar" type="submit">Editar</button></a></td>
                 <td><a href="/deleteuser/${user.username}"><button name="Eliminar" type="submit">Eliminar</button></a></td>
-            </tr>
-            <tr>
-                <td><a href="/addUser/"><button name="Agregar Usuario" type="submit">Agregar</button></a></td>
             </tr>
             </#list>
             </table>
+            <p><a href="/addUser/"><button name="Agregar Usuario" type="submit">Agregar</button></a></p>
         </center>
     </section>
         </#if>

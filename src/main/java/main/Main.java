@@ -236,7 +236,7 @@ public class Main {
 
         },motor);
 
-        get("/administrador/:username", (request,response) -> {
+        get("/editaruser/:username", (request,response) -> {
 
             String username = request.params("username");
             UserServices servicios_user= new UserServices();
