@@ -35,22 +35,15 @@ public class productServices {
                 product.setTitle(rs.getString("title"));
                 product.setBody(rs.getString("body"));
                 //
-                User us=null;
-                String user = rs.getString("author");
-                UserServices users=new UserServices();
-                List<User> lista = users.UserList();
-                for(User u: lista){
-                    if(u.getUsername().equals(user)) {
-                        us=u;
-                    }
-                }
-                product.setAuthor(us);
+                product.setAuthor(devolverUser(rs.getString("author")));
                 product.setDateTime(rs.getDate("datep"));
                 //product.setAuthor(rs.getObject("author", User.class));
 
                 //product.setComments((ArrayList<Comment>) rs.getArray("comments"));
                 //product.setTags((ArrayList<Tag>) rs.getArray("tags"));
 
+
+                product.setTags(pTags(product.getId()));
                 list.add(product);
             }
 
@@ -91,10 +84,11 @@ public class productServices {
                 product.setId(rs.getInt("id"));
                 product.setTitle(rs.getString("title"));
                 product.setBody(rs.getString("body"));
-                product.setAuthor(rs.getObject("author", User.class));
-                product.setDateTime(rs.getDate("date"));
-                product.setComments((ArrayList<Comment>) rs.getArray("comments"));
-                product.setTags((ArrayList<Tag>) rs.getArray("tags"));
+                product.setAuthor(devolverUser(rs.getString("author")));
+                product.setDateTime(rs.getDate("datep"));
+                product.setTags(pTags(product.getId()));
+                //product.setComments((ArrayList<Comment>) rs.getArray("comments"));
+                //product.setTags((ArrayList<Tag>) rs.getArray("tags"));
 
             }
 
@@ -138,7 +132,7 @@ public class productServices {
             con.close();
 
             //trabajo con las etiquetas
-            String query2 = "select * from products order by datep desc LIMIT 1";
+            String query2 = "select * from products order by id desc LIMIT 1";
             con = DatabaseService.getInstancia().getConexion();
             PreparedStatement prepareStatement2 = con.prepareStatement(query2);
             ResultSet rs = prepareStatement2.executeQuery();
@@ -303,6 +297,85 @@ public class productServices {
         }
 
         return ok;
+    }
+
+    public User devolverUser(String name)
+    {
+        User us=null;
+        String user = name;
+        UserServices users=new UserServices();
+        List<User> lista = users.UserList();
+        for(User u: lista){
+            if(u.getUsername().equals(user)) {
+                us=u;
+            }
+        }
+
+        return us;
+    }
+
+    public List<Tag> pTags(long n){
+        List<Tag> et=new ArrayList<>();
+
+        TagServices t=new TagServices();
+        List<Tag> lista = t.TagList();
+
+        Connection con = null; //objeto conexion.
+        try {
+
+            String query = "select * from TAGPRODUCTS where product = ?";
+            con = DatabaseService.getInstancia().getConexion();
+            //
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+            //Antes de ejecutar seteo los parametros.
+            prepareStatement.setLong(1, n);
+            //Ejecuto...
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                Tag tag = new Tag();
+                Long idt= rs.getLong("tag");
+                for(Tag g: lista){
+                    if(g.getId()==idt){
+                        tag=g;
+                        et.add(tag);
+                    }
+                }
+            }
+            con.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return et;
+    }
+
+    public void prueba(){
+        boolean ok =false;
+
+        Connection con = null;
+        try {
+
+            String query2 = "select * from products order by id desc LIMIT 1";
+            con = DatabaseService.getInstancia().getConexion();
+            PreparedStatement prepareStatement2 = con.prepareStatement(query2);
+            ResultSet rs = prepareStatement2.executeQuery();
+            long pid=0;
+            while(rs.next()){
+                pid=rs.getLong("id");
+                System.out.println(pid);
+            }
+            con.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
 }

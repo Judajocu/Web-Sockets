@@ -2,6 +2,7 @@ package Classes;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Product {
     private long id;
@@ -9,8 +10,8 @@ public class Product {
     private String Body;
     private User Author;
     private Date DateTime;
-    private ArrayList<Comment> comments;
-    private ArrayList<Tag> tags;
+    private List<Comment> comments;
+    private List<Tag> tags;
 
     public Product(long id, String title, String body, User author, Date dateTime, ArrayList<Comment> comments, ArrayList<Tag> tags) {
         this.id = id;
@@ -65,19 +66,19 @@ public class Product {
         DateTime = dateTime;
     }
 
-    public ArrayList<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
-    public ArrayList<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 }

@@ -68,19 +68,26 @@ public class Main {
         }
 
         productServices prueba=new productServices();
-        List<Product> lista = prueba.ProductList();
+        prueba.prueba();
+        /*List<Product> lista = prueba.ProductList();
         System.out.println("La cantidad de articulo: "+lista.size());
         for(Product est : lista){
             System.out.println("La matricula: "+est.getId()+" title: "+ est.getTitle()+",Autor"+est.getAuthor().getUsername()+",fecha"+est.getDateTime());
-        }
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.now();
-        System.out.println(dtf.format(localDate).toString());
+        }*/
 
-        Date today = Calendar.getInstance().getTime();
+        //boolean p2 =prueba.DeleteProduct(3);
+        int n=4;
+        if(prueba.getProduct(n)!=null) {
+            Product p = prueba.getProduct(n);
+            for (Tag est : p.getTags()) {
+                System.out.println("producto:" + p.getId() + ", tag id: " + est.getId() + ", tag name: " + est.getTag());
+            }
+        }
+        //System.out.println(prueba.getProduct(1).getBody());
+        /*Date today = Calendar.getInstance().getTime();
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        System.out.println(sqlDate);
+        System.out.println(sqlDate);*/
         new Main().manejadorFremarker();
 
         //BootstrapService.stopDb();
