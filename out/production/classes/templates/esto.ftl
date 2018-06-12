@@ -18,7 +18,29 @@
                      <h5>usuario registrado: ${userl.username}</h5>
 
     <section>
-
+        <center>
+            <table>
+                <tr><th>username</th>
+                    <th>Nombre</th>
+                    <th>password</th>
+                    <th>administrador</th>
+                    <th>promover?</th>
+                    <th>Eliminar</th>
+                </tr>
+            <#list lista as user>
+            <tr><td>${user.username}</td>
+                <td>${user.nombre}</td>
+                <td>${user.password}</td>
+                <td>${user.administrator?string('si','no')}</td>
+                <td><a href="/administrador/${user.username}"><button name="Eliminar" type="submit">Adminsitrador</button></a></td>
+                <td><a href="/deleteuser/${user.username}"><button name="Eliminar" type="submit">Eliminar</button></a></td>
+            </tr>
+            <tr>
+                <td><a href="/addUser/"><button name="Agregar Usuario" type="submit">Agregar</button></a></td>
+            </tr>
+            </#list>
+            </table>
+        </center>
     </section>
         </#if>
     <#else>

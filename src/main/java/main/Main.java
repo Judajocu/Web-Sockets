@@ -59,6 +59,16 @@ public class Main {
             servicios_user.CreateUser(insertar);
         }
 
+        User dos = new User();
+        dos.setUsername("guest");
+        dos.setNombre("Carl");
+        dos.setPassword("456");
+        dos.setAuthor(false);
+        dos.setAdministrator(false);
+        if(servicios_user.getUser(dos.getUsername())==null){
+            servicios_user.CreateUser(dos);
+        }
+
         new Main().manejadorFremarker();
 
         //BootstrapService.stopDb();
@@ -138,8 +148,12 @@ public class Main {
 
         get("/userlist", (request, response) -> {
             User user= request.session(true).attribute("user");
+            UserServices servicios_user= new UserServices();
+            List<User> usuarios = servicios_user.UserList();
+
 
             Map<String, Object> mapa = new HashMap<>();
+            mapa.put("lista",usuarios);
             mapa.put("userl",user);
             return new ModelAndView(mapa, "esto.ftl");
         }, motor);
@@ -186,6 +200,38 @@ public class Main {
             mapa.put("index",index);
             return new ModelAndView(mapa,"producto.ftl");
         },motor);
+
+        get("/deleteuser/:username", (request, response) -> {
+
+            String username = request.params("username");
+            UserServices servicios_user= new UserServices();
+            List<User> usuarios = servicios_user.UserList();
+
+            usuarios.removeIf(User -> User.getUsername().equalsIgnoreCase(username));
+            servicios_user.DeleteUser(username);
+            Map<String, Object> mapa = new HashMap<>();
+            return new ModelAndView(mapa,"deleteUser.ftl");
+
+        },motor);
+
+        get("/administrador/:username", (request,response) -> {
+
+            String username = request.params("username");
+            UserServices servicios_user= new UserServices();
+            List<User> usuarios = servicios_user.UserList();
+
+            for (User usr: usuarios) {
+                if(usr.getUsername().equalsIgnoreCase(username))
+                {
+                    usr.setAdministrator(true);
+                    servicios_user.UpdateUser(usr);
+                }
+            }
+
+            Map<String,Object> mapa = new HashMap<>();
+            return new ModelAndView(mapa,"administratorUser.ftl");
+
+        }, motor);
 
         /*Spark.post("product/:productid",(request, response) -> {
             StringWriter writer = new StringWriter();
