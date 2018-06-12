@@ -4,6 +4,7 @@
     border-radius: 10px;
     margin-top: 15px;
     margin-bottom: 15px;
+    background-color: white;
 }
 
 .sobre {
@@ -29,5 +30,9 @@ input[type=text],input[type=password]{
     width: 30%;
     padding-left: 30px;
     padding-right: 100px;
+}
+
+body {
+    background: #e6e6e6;
 }
 

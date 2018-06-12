@@ -76,7 +76,7 @@ public class Main {
         }*/
 
         //boolean p2 =prueba.DeleteProduct(3);
-        int n=4;
+        int n=5;
         if(prueba.getProduct(n)!=null) {
             Product p = prueba.getProduct(n);
             for (Tag est : p.getTags()) {
