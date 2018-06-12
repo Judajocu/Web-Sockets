@@ -31,13 +31,25 @@ public class productServices {
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 Product product = new Product();
-                product.setId(rs.getInt("id"));
+                product.setId(rs.getLong("id"));
                 product.setTitle(rs.getString("title"));
                 product.setBody(rs.getString("body"));
-                product.setAuthor(rs.getObject("author", User.class));
-                product.setDateTime(rs.getDate("date"));
-                product.setComments((ArrayList<Comment>) rs.getArray("comments"));
-                product.setTags((ArrayList<Tag>) rs.getArray("tags"));
+                //
+                User us=null;
+                String user = rs.getString("author");
+                UserServices users=new UserServices();
+                List<User> lista = users.UserList();
+                for(User u: lista){
+                    if(u.getUsername().equals(user)) {
+                        us=u;
+                    }
+                }
+                product.setAuthor(us);
+                product.setDateTime(rs.getDate("datep"));
+                //product.setAuthor(rs.getObject("author", User.class));
+
+                //product.setComments((ArrayList<Comment>) rs.getArray("comments"));
+                //product.setTags((ArrayList<Tag>) rs.getArray("tags"));
 
                 list.add(product);
             }
@@ -105,7 +117,9 @@ public class productServices {
         Connection con = null;
         try {
 
-            String query = "insert into products(title, body, author, datep) values(?,?,?,?)";
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate hoy = LocalDate.now();
+            String query = "insert into products(title, body, author, datep) values(?,?,?,'" + formato.format(hoy).toString()  + "')";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
@@ -114,7 +128,7 @@ public class productServices {
             prepareStatement.setString(1, product.getTitle());
             prepareStatement.setString(2, product.getBody());
             prepareStatement.setString(3, product.getAuthor().getUsername());
-            prepareStatement.setDate(4, (Date) product.getDateTime());
+            //prepareStatement.setDate(4, (Date) product.getDateTime());
             //prepareStatement.setDate(4, (Date) product.getDateTime());
             //prepareStatement.setArray(6, (Array) product.getComments());
             //prepareStatement.setArray(7, (Array) product.getTags());
