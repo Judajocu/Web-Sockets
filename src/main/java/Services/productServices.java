@@ -24,7 +24,7 @@ public class productServices {
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select * from products";
+            String query = "select * from products order by id desc";
             con = DatabaseService.getInstancia().getConexion(); //referencia a la conexion.
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);

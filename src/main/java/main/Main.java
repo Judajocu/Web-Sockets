@@ -114,11 +114,14 @@ public class Main {
 
         get("/", (request, response) -> {
             User user= request.session(true).attribute("user");
+            productServices manejo_p = new productServices();
+            List<Product> articulos= manejo_p.ProductList();
 
 
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("name","Bienvenidos");
             mapa.put("userl",user);
+            mapa.put("art",articulos);
             return new ModelAndView(mapa, "inicio.ftl");
         }, motor);
 

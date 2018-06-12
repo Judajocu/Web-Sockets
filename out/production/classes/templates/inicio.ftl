@@ -18,16 +18,26 @@
     <div class="row">
         <div class="leftcolumn">
 
+            <#if art??>
+            <#list art as a>
                 <div class="borde">
                     <div class="espacio">
-                    <br/>
-                    <h2>TITLE HEADING</h2>
-                    <h5>Autor, Fecha</h5>
-                    <br/>
-                    <p>Some text..</p>
-                    <p><a class="btn btn-ghost">Read more</a></p>
+                        <br/>
+                        <h2>${a.getTitle()}</h2>
+                        <h5>${a.getAuthor().getUsername()}, ${a.getDateTime()}</h5>
+                        <br/>
+                        <p>${a.getBody()}</p>
+                        <p><a class="btn btn-ghost">Leer más</a></p>
+                        <p>
+                         <#list a.getTags() as tag>
+                            <a class="etiqueta"> ${tag.getTag()} </a>
+                        </#list>
+                        </p>
                     </div>
                 </div>
+            <br/>
+            </#list>
+            </#if>
 
         </div>
         <div class="rightcolumn">
