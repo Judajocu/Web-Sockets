@@ -19,11 +19,14 @@
         <div class="leftcolumn">
 
                 <div class="borde">
-                    <h2> Esto es un ejemplo</h2>
-                    <p class="lead">Texto</p>
-                    <p>mas texto</p>
+                    <div class="espacio">
+                    <br/>
+                    <h2>TITLE HEADING</h2>
+                    <h5>Autor, Fecha</h5>
+                    <br/>
+                    <p>Some text..</p>
                     <p><a class="btn btn-ghost">Read more</a></p>
-
+                    </div>
                 </div>
 
         </div>

@@ -21,7 +21,7 @@ input[type=text],input[type=password]{
 .leftcolumn {
     float: left;
     width: 70%;
-    padding-left: 100px;
+    padding-left: 130px;
 }
 
 /* Right column */
@@ -29,10 +29,15 @@ input[type=text],input[type=password]{
     float: left;
     width: 30%;
     padding-left: 30px;
-    padding-right: 100px;
+    padding-right: 130px;
 }
 
 body {
     background: #e6e6e6;
+}
+
+.espacio{
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
