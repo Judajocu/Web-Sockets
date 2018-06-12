@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Services.CommentServices;
+import Services.TagServices;
+import Services.UserServices;
+
 public class productServices {
 
     public List<Product> ProductList() {
@@ -95,7 +99,7 @@ public class productServices {
         return product;
     }
 
-    public boolean CreateProduct(Product product){
+    public boolean CreateProduct(Product product, String[] tags){
         boolean ok =false;
 
         Connection con = null;
@@ -109,24 +113,110 @@ public class productServices {
             //prepareStatement.setLong(1, product.getId());
             prepareStatement.setString(1, product.getTitle());
             prepareStatement.setString(2, product.getBody());
-            prepareStatement.setObject(3, product.getAuthor());
+            prepareStatement.setString(3, product.getAuthor().getUsername());
             prepareStatement.setDate(4, (Date) product.getDateTime());
             //prepareStatement.setDate(4, (Date) product.getDateTime());
             //prepareStatement.setArray(6, (Array) product.getComments());
             //prepareStatement.setArray(7, (Array) product.getTags());
-
-            //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;
 
+            con.close();
+
+            //trabajo con las etiquetas
+            String query2 = "select * from products order by datep desc LIMIT 1";
+            con = DatabaseService.getInstancia().getConexion();
+            PreparedStatement prepareStatement2 = con.prepareStatement(query2);
+            ResultSet rs = prepareStatement2.executeQuery();
+            long pid=0;
+            while(rs.next()){
+                pid=rs.getLong("id");
+            }
+            con.close();
+
+            TagServices t=new TagServices();
+            List<Tag> lista = t.TagList();
+
+            for (int i = 0; i < tags.length; i++)
+            {
+                boolean noesta=false;
+                for (Tag t2: lista)
+                {
+                    if(t2.getTag().equals(tags[i]))
+                    {
+                        //insertar en tabla etiqueta y producto
+                        String query3 = "insert into TAGPRODUCTS(tag, product) values(?,?)";
+                        //
+                        con = DatabaseService.getInstancia().getConexion();
+                        PreparedStatement prepareStatement3 = con.prepareStatement(query3);
+                        //Antes de ejecutar seteo los parametros.
+                        prepareStatement3.setLong(1, t2.getId());
+                        prepareStatement3.setLong(2, pid);
+                        int fila2 = prepareStatement3.executeUpdate();
+                        ok = fila2 > 0 ;
+                        con.close();
+                        noesta=true;
+                    }
+                }
+                if(!noesta)
+                {
+                    TagServices tass=new TagServices();
+                    Tag insert=new Tag();
+                    insert.setTag(tags[i]);
+                    tass.CreateTag(insert);
+
+                    String querys = "select * from tags order by id desc LIMIT 1";
+                    con = DatabaseService.getInstancia().getConexion();
+                    PreparedStatement prepareStatements = con.prepareStatement(querys);
+                    ResultSet rs2 = prepareStatements.executeQuery();
+                    Tag ya=null;
+                    while(rs2.next()){
+                        ya = new Tag();
+                        ya.setId(rs2.getLong("id"));
+                        ya.setTag(rs2.getString("tag"));
+                    }
+                    con.close();
+
+                    String query4 = "insert into TAGPRODUCTS(tag, product) values(?,?)";
+                    //
+                    con = DatabaseService.getInstancia().getConexion();
+                    PreparedStatement prepareStatement4 = con.prepareStatement(query4);
+                    //Antes de ejecutar seteo los parametros.
+                    prepareStatement4.setLong(1, ya.getId());
+                    prepareStatement4.setLong(2, pid);
+                    int fila2 = prepareStatement4.executeUpdate();
+                    ok = fila2 > 0 ;
+                    con.close();
+                    //insertar en tabla etiqueta y producto
+                    //insertar en tabla etiqueta
+                }
+            }
+
+            /*Product esto=null;
+            while(rs.next()){
+                esto = new Product();
+                esto.setId(rs.getInt("id"));
+                esto.setTitle(rs.getString("title"));
+                esto.setBody(rs.getString("body"));
+
+                User us=null;
+                String user = rs.getString("author");
+                UserServices users=new UserServices();
+                List<User> lista = users.UserList();
+                for(User u: lista){
+                    if(u.getUsername().equals(user)) {
+                        us=u;
+                    }
+                }
+                esto.setAuthor(us);
+                esto.setDateTime(rs.getDate("date"));
+
+            }*/
+
+            //
+
         } catch (SQLException ex) {
             Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                con.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
 
         return ok;

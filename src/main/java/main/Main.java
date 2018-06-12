@@ -167,7 +167,7 @@ public class Main {
             insertar.setTitle(title);
             insertar.setBody(body);
             insertar.setDateTime(today);
-            ps.CreateProduct(insertar);
+            ps.CreateProduct(insertar, tags);
 
             response.redirect("/");
             return "";

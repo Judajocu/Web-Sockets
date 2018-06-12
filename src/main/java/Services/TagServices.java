@@ -25,7 +25,7 @@ public class TagServices {
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 Tag tag = new Tag();
-                tag.setId(rs.getInt("id"));
+                tag.setId(rs.getLong("id"));
                 tag.setTag(rs.getString("tag"));
 
                 list.add(tag);
@@ -65,7 +65,7 @@ public class TagServices {
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 tag = new Tag();
-                tag.setId(rs.getInt("id"));
+                tag.setId(rs.getLong("id"));
                 tag.setTag(rs.getString("tag"));
 
             }
@@ -89,13 +89,13 @@ public class TagServices {
         Connection con = null;
         try {
 
-            String query = "insert into tags(id, tag) values(?,?)";
+            String query = "insert into tags(tag) values(?)";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setLong(1, tag.getId());
-            prepareStatement.setString(2, tag.getTag());
+            //prepareStatement.setLong(1, tag.getId());
+            prepareStatement.setString(1, tag.getTag());
 
             //
             int fila = prepareStatement.executeUpdate();
