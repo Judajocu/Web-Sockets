@@ -197,6 +197,8 @@ public class Main {
             insertar.setDateTime(today);
             ps.CreateProduct(insertar, tags);
 
+
+
             response.redirect("/");
             return "";
         });
@@ -243,7 +245,7 @@ public class Main {
 
             Map<String,Object> mapa = new HashMap<>();
             mapa.put("index",index);
-            return new ModelAndView(mapa, "templates/editUser.ftl");
+            return new ModelAndView(mapa, "editUser.ftl");
 
         }, motor);
 
@@ -282,6 +284,7 @@ public class Main {
                         s.setPassword(Password);
                         s.setAuthor(author);
                         s.setAdministrator(administrator);
+                        servicios_user.UpdateUser(s);
                     }
                 }
                 response.redirect("/userlist/");
