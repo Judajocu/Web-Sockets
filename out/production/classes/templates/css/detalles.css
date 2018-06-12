@@ -11,3 +11,23 @@
     font-weight: bold;
     text-decoration: underline;
 }
+
+input[type=text],input[type=password]{
+    width: 50%;
+    margin: auto;
+}
+
+.leftcolumn {
+    float: left;
+    width: 70%;
+    padding-left: 100px;
+}
+
+/* Right column */
+.rightcolumn {
+    float: left;
+    width: 30%;
+    padding-left: 30px;
+    padding-right: 100px;
+}
+
