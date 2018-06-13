@@ -298,7 +298,7 @@ public class Main {
 
         get("/AddUserForm/", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
-            return new ModelAndView(attributes, "Formulario.ftl");
+            return new ModelAndView(attributes, "addUser.ftl");
         }, motor);
 
         Spark.post("/AddUser/", (request, response) -> {
