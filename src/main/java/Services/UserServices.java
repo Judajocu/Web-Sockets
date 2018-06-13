@@ -120,7 +120,7 @@ public class UserServices {
         Connection con = null;
         try {
 
-            String query = "update users set username=?, nombre=?, password=?, Administrator=?, author=? where username = ?";
+            String query = "update users set nombre=?, password=?, Administrator=?, author=? where username = ?";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);

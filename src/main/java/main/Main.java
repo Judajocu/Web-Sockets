@@ -23,10 +23,6 @@ import static spark.Spark.*;
 
 public class Main {
     public static void main(String[] args)throws SQLException {
-        //System.out.println("La cantidad de estudiantes: "+listaEstudiantes.size());
-        // for(Estudiante est : listaEstudiantes){
-        //    System.out.println("La matricula: "+est.getMatricula());
-        // }
 
         //Iniciando el servicio
         BootstrapService.startDb();
@@ -50,12 +46,15 @@ public class Main {
         }
 
 
-        TagServices prueb=new TagServices();
-        List<Tag> list = prueb.TagList();
-        System.out.println("La cantidad de articulo: "+list.size());
-        for(Tag est : list){
-            System.out.println("La matricula: "+est.getId()+" title: "+ est.getTag());
-        }
+        /*UserServices prueb=new UserServices();
+        User u=prueb.getUser("User");
+        u.setAdministrator(false);
+        prueb.UpdateUser(u);
+        List<User> list = prueb.UserList();
+        System.out.println("La cantidad de users: "+list.size());
+        for(User est : list){
+            System.out.println("user: "+est.getUsername()+", pass: "+ est.getPassword()+", name: "+ est.getNombre()+", author: "+ est.isAuthor()+", admin: "+ est.isAdministrator());
+        }*/
 
         productServices prueba=new productServices();
         prueba.prueba();
@@ -63,7 +62,7 @@ public class Main {
         System.out.println("La cantidad de articulo: "+lista.size());
         for(Product est : lista){
             System.out.println("La matricula: "+est.getId()+" title: "+ est.getTitle()+",Autor"+est.getAuthor().getUsername()+",fecha"+est.getDateTime());
-        }*/
+
 
         //boolean p2 =prueba.DeleteProduct(3);
         int n=5;
@@ -73,6 +72,7 @@ public class Main {
                 System.out.println("producto:" + p.getId() + ", tag id: " + est.getId() + ", tag name: " + est.getTag());
             }
         }
+        }*/
         //System.out.println(prueba.getProduct(1).getBody());
         /*Date today = Calendar.getInstance().getTime();
         java.util.Date utilDate = new java.util.Date();
@@ -130,7 +130,6 @@ public class Main {
 
         Spark.post("/login", (request, response) -> {
 
-            System.out.println("usuario log");
 
             String username =request.queryParams("username") != null ? request.queryParams("username") : "unknown";
             String pass =request.queryParams("username") != null ? request.queryParams("pass") : "unknown";
@@ -138,7 +137,6 @@ public class Main {
             User user = encontrarUser(username);
             //System.out.println("usuario "+ user.getUsername());
             if(user!=null){
-                System.out.println("usuario yes");
                 if(user.getPassword().equals(pass)) {
 
                     request.session(true);
