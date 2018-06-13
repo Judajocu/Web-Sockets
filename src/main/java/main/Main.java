@@ -89,8 +89,8 @@ public class Main {
 
         //
 
-        staticFileLocation("/public");
-        //staticFiles.location("/public");
+        //staticFileLocation("/public");
+        staticFiles.location("/public");
 
         ArrayList<Product> ProductList = new ArrayList<Product>();
         ArrayList<User> UserList = new ArrayList<User>();
@@ -101,7 +101,6 @@ public class Main {
         configuration.setClassForTemplateLoading(
                 Main.class,"/templates/");
         FreeMarkerEngine motor= new FreeMarkerEngine(configuration);
-        System.out.println("usuario");
 
         get("/", (request, response) -> {
             User user= request.session(true).attribute("user");
@@ -335,14 +334,6 @@ public class Main {
             }
             return writer;
         });
-        get("/lala/:us/", (request,response) -> {
-
-            //staticFiles.location("/templates");
-
-            Map<String,Object> mapa = new HashMap<>();
-            return new ModelAndView(mapa, "esto.ftl");
-
-        }, motor);
 
     }
 
