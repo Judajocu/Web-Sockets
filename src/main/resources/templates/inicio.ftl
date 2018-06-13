@@ -18,16 +18,24 @@
     <div class="row">
         <div class="leftcolumn">
 
+            <hr class="sep">
+            <div>
+                <center><h1>Articulos</h1></center>
+            </div>
+            <hr class="sep">
+
             <#if art??>
             <#list art as a>
                 <div class="borde">
                     <div class="espacio">
                         <br/>
                         <h2>${a.getTitle()}</h2>
-                        <h5>${a.getAuthor().getUsername()}, ${a.getDateTime()}</h5>
+                        <hr class="separador">
+                        <h4>${a.getAuthor().getUsername()}, ${a.getDateTime()}</h4>
                         <br/>
-                        <p>${a.getBody()}</p>
-                        <p><a class="btn btn-ghost">Leer más</a></p>
+                        <p><h4 class="stest">${a.getBody()}</h4></p>
+                        <center><p><a class="btn btn-ghost">Leer más</a></p></center>
+                        <hr class="separador">
                         <p>
                          <#list a.getTags() as tag>
                             <a class="etiqueta"> ${tag.getTag()} </a>

@@ -74,3 +74,19 @@ body {
     text-align: center;
 }
 
+.stest{
+    font-weight: normal;
+}
+
+.separador{
+    border: 2px solid rgba(179, 230, 255,0.5);
+    border-radius: 10px;
+
+}
+
+.sep{
+    border: 4px solid #1989B8;
+    border-radius: 10px;
+
+}
+
