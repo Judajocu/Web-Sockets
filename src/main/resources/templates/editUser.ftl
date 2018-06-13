@@ -13,7 +13,7 @@
     </div>
 </div>
 <center>
-    <form action="/editaruser/${index}" method="post">
+    <form action="/editaruser/${index}/${user}" method="post">
         Username: <input name="username" type="text"/>${user.username}<br/>
         Nombre: <input name="nombre" type="text"/>${user.nombre}<br/>
         Password: <input name="password" type="text"/>${user.password}<br/>
