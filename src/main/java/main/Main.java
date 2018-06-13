@@ -327,7 +327,7 @@ public class Main {
                     administrator=true;
                 }
                 servicios_user.CreateUser(new User(Username,Nombre,Password,author,administrator));
-                response.redirect("/usrlist/");
+                response.redirect("/userlist/");
             }catch (Exception e){
                 System.out.println(e);
                 response.redirect("/addUserForm/");
