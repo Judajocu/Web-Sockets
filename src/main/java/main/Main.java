@@ -9,10 +9,6 @@ import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.*;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-import static spark.Spark.staticFiles;
-
 import Classes.User;
 import Classes.Comment;
 import Classes.Tag;
@@ -22,6 +18,8 @@ import Services.BootstrapService;
 import Services.DatabaseService;
 import Services.productServices;
 import Services.UserServices;
+
+import static spark.Spark.*;
 
 public class Main {
     public static void main(String[] args)throws SQLException {
@@ -91,7 +89,8 @@ public class Main {
 
         //
 
-        staticFiles.location("/templates");
+        staticFileLocation("/public");
+        //staticFiles.location("/public");
 
         ArrayList<Product> ProductList = new ArrayList<Product>();
         ArrayList<User> UserList = new ArrayList<User>();
@@ -336,6 +335,14 @@ public class Main {
             }
             return writer;
         });
+        get("/lala/:us/", (request,response) -> {
+
+            //staticFiles.location("/templates");
+
+            Map<String,Object> mapa = new HashMap<>();
+            return new ModelAndView(mapa, "esto.ftl");
+
+        }, motor);
 
     }
 
