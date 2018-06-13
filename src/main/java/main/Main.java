@@ -296,7 +296,7 @@ public class Main {
             return writer;
         });
 
-        get("/AddUserForm/", (request, response) -> {
+        get("/addUserForm/", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             return new ModelAndView(attributes, "addUser.ftl");
         }, motor);
@@ -330,7 +330,7 @@ public class Main {
                 response.redirect("/usrlist/");
             }catch (Exception e){
                 System.out.println(e);
-                response.redirect("/AddUserForm/");
+                response.redirect("/addUserForm/");
             }
             return writer;
         });

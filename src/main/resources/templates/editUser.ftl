@@ -17,8 +17,16 @@
         Username: <input name="username" type="text"/>${user.username}<br/>
         Nombre: <input name="nombre" type="text"/>${user.nombre}<br/>
         Password: <input name="password" type="text"/>${user.password}<br/>
-        Autor: <input name="author" type="checkbox"/>${user.author}<br/>
-        Administrador: <input name="administrator" type="checkbox"/>${user.administrator}<br/>
+        <#if user.author?c("true")>
+        Autor: <input name="author" type="checkbox" value="on"/><br/>
+        <#else >
+        Autor: <input name="author" type="checkbox"/><br/>
+        </#if>
+        <#if user.administrator?c("true")>
+        Autor: <input name="administrator" type="checkbox" value="on"/><br/>
+        <#else >
+        Administrator: <input name="administrator" type="checkbox"/><br/>
+        </#if>
         <button name="Enviar" type="submit">Enviar</button>
     </form>
 </center>
