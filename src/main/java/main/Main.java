@@ -106,6 +106,13 @@ public class Main {
             User user= request.session(true).attribute("user");
             productServices manejo_p = new productServices();
             List<Product> articulos= manejo_p.ProductList();
+            for(Product p: articulos){
+                String up = p.getBody().substring(0, Math.min(p.getBody().length(), 70));
+                //System.out.println("caracteres "+up);
+                //System.out.println("caracteres 2 "+p.getBody());
+                p.setBody(up+"...");
+            }
+
 
 
             Map<String, Object> mapa = new HashMap<>();
