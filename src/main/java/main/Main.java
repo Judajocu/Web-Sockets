@@ -312,14 +312,14 @@ public class Main {
                 String Administrator = request.queryParams("administrator");
                 boolean author=false;
                 boolean administrator=false;
-                if(Author.equalsIgnoreCase(null))
+                if(Author.equalsIgnoreCase("off"))
                 {
                     author=false;
                 } else if(Author.equalsIgnoreCase("on"))
                 {
                     author=true;
                 }
-                if(Administrator.equalsIgnoreCase(null))
+                if(Administrator.equalsIgnoreCase("off"))
                 {
                     administrator=false;
                 } else if(Administrator.equalsIgnoreCase("on"))
