@@ -270,14 +270,14 @@ public class Main {
                 String Administrator = request.queryParams("administrator");
                 boolean author=false;
                 boolean administrator=false;
-                if(Author.equalsIgnoreCase(null))
+                if(Author==null)
                 {
                     author=false;
                 } else if(Author.equalsIgnoreCase("on"))
                 {
                     author=true;
                 }
-                if(Administrator.equalsIgnoreCase(null))
+                if(Administrator==null)
                 {
                     administrator=false;
                 } else if(Administrator.equalsIgnoreCase("on"))
@@ -319,14 +319,14 @@ public class Main {
                 String Administrator = request.queryParams("administrator");
                 boolean author=false;
                 boolean administrator=false;
-                if(Author.equalsIgnoreCase("off"))
+                if(Author==null)
                 {
                     author=false;
                 } else if(Author.equalsIgnoreCase("on"))
                 {
                     author=true;
                 }
-                if(Administrator.equalsIgnoreCase("off"))
+                if(Administrator==null)
                 {
                     administrator=false;
                 } else if(Administrator.equalsIgnoreCase("on"))

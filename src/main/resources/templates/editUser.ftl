@@ -18,12 +18,12 @@
         Nombre: <input name="nombre" type="text" value="${user.nombre}"/><br/>
         Password: <input name="password" type="text" value="${user.password}"/><br/>
         <#if user.author>
-        Autor: <input name="author" type="checkbox" value="true"/><br/>
+        Autor: <input name="author" type="checkbox" checked/><br/>
         <#else >
         Autor: <input name="author" type="checkbox"/><br/>
         </#if>
         <#if user.administrator>
-        Autor: <input name="administrator" type="checkbox" value="true"/><br/>
+        Autor: <input name="administrator" type="checkbox" checked/><br/>
         <#else >
         Administrator: <input name="administrator" type="checkbox"/><br/>
         </#if>
