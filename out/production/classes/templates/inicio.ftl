@@ -56,10 +56,15 @@
             </div>
 
                 <div class="borde">
-                    <h2> Esto es un ejemplo</h2>
-                    <p class="lead">Texto</p>
-                    <p>mas texto</p>
-                    <p><a class="btn btn-ghost">Read more</a></p>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
 
                 </div>
 

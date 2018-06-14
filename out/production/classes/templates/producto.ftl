@@ -28,6 +28,14 @@
                         <br/>
                         <h2>${art.getTitle()}</h2>
                         <hr class="separador">
+
+                        <#if userl??>
+                            <#if userl.administrator || userl.getUsername() == art.getAuthor().getUsername()>
+                            <a href="/" class="especial"><i class="fa fa-close"></i></a>
+                            <a href="/" class="especial"><i class="fa fa-edit"></i></a>
+                            </#if>
+                        </#if>
+
                         <h4>${art.getAuthor().getUsername()}, ${art.getDateTime()}</h4>
                         <br/>
                         <p><h4 class="stest">${art.getBody()}</h4></p>
@@ -60,6 +68,14 @@
                     <p>
                     <#if art.getComments()?has_content>
                          <#list art.getComments() as comm>
+
+                             <#if userl??>
+                                 <#if userl.administrator || userl.getUsername() == art.getAuthor().getUsername()>
+                                    <a href="/" class="especial"><i class="fa fa-close"></i></a>
+                                    <a href="/" class="especial"><i class="fa fa-edit"></i></a>
+                                 </#if>
+                             </#if>
+
                              <h4>Autor: ${comm.getAuthor().getUsername()}</h4>
                             <p><h4 class="stest">${comm.getComment()}</h4></p>
                             <hr class="separador">
@@ -80,10 +96,12 @@
             </div>
 
             <div class="borde">
-                <h2> Esto es un ejemplo</h2>
-                <p class="lead">Texto</p>
-                <p>mas texto</p>
-                <p><a class="btn btn-ghost">Read more</a></p>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
 
             </div>
 

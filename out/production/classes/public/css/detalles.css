@@ -90,3 +90,20 @@ body {
 
 }
 
+.especial{
+    border: 2px solid;
+    float: right;
+    border-radius: 10px;
+    border-color: #2196F3;
+    color: dodgerblue;
+    padding: 3px 5px;
+    text-align: center;
+    margin: 0px 2px;
+
+}
+.especial:hover {
+    background: #2196F3;
+    color: white;
+    border-color: #2196F3;
+}
+

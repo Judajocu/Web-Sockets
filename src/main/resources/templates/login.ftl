@@ -6,6 +6,9 @@
 
 <#macro page_body>
 <section>
+    <br/>
+    <br/>
+    <br/>
     <div class="container">
         <div class="borde">
             <br/>
@@ -24,5 +27,8 @@
                             </form>
             </div>
     </div>
+    <br/>
+    <br/>
+    <br/>
 </section>
 </#macro>

@@ -58,7 +58,7 @@ public class Main {
         String[] tar={"tag1","tag2","tag3"};
         estep.setTitle("primer articulo");
         prueba.UpdateProduct(estep,tar);*/
-        prueba.DeleteProduct(6);
+        //prueba.DeleteProduct(6);
 
         CommentServices ccc=new CommentServices();
         List<Comment> cc=ccc.CommentList();
