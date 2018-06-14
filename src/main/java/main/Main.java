@@ -257,6 +257,45 @@ public class Main {
             return "";
         });
 
+        get("/edit/:id", (request, response) -> {
+            User user= request.session(true).attribute("user");
+            long productid = Long.parseLong(request.params("id"));
+
+            productServices pro=new productServices();
+            Product p=pro.getProduct(productid);
+            String tag="";
+            for (Tag t:p.getTags()){
+                tag+=t.getTag()+",";
+            }
+            tag.substring(0, Math.min(tag.length(), tag.length()-1));
+
+            Map<String, Object> mapa = new HashMap<>();
+            mapa.put("userl",user);
+            mapa.put("art",p);
+            mapa.put("tag",tag);
+            return new ModelAndView(mapa, "editarP.ftl");
+        }, motor);
+
+        post("/edit/:id", (request, response) -> {
+            User user= request.session(true).attribute("user");
+            long productid = Long.parseLong(request.params("id"));
+
+            String title =request.queryParams("title");
+            String body =request.queryParams("body");
+            String[] tags =request.queryParams("tag").split(",");
+            Date today = Calendar.getInstance().getTime();
+
+            productServices ps=new productServices();
+            Product insertar = ps.getProduct(productid);
+            insertar.setTitle(title);
+            insertar.setBody(body);
+            ps.UpdateProduct(insertar, tags);
+
+            String re ="/product/"+insertar.getId();
+            response.redirect(re);
+            return "";
+        });
+
         get("/deleteuser/:username", (request, response) -> {
 
             String username = request.params("username");

@@ -32,7 +32,7 @@
                         <#if userl??>
                             <#if userl.administrator || userl.getUsername() == art.getAuthor().getUsername()>
                             <a href="/" class="especial"><i class="fa fa-close"></i></a>
-                            <a href="/" class="especial"><i class="fa fa-edit"></i></a>
+                            <a href="/edit/${art.getId()?string["0"]}" class="especial"><i class="fa fa-edit"></i></a>
                             </#if>
                         </#if>
 
