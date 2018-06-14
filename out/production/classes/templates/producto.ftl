@@ -42,6 +42,24 @@
                 </div>
             <br/>
             <center><p><a href="/" class="btn btn-ghost">Volver</a></p></center>
+            <div class="borde">
+                <div class="espacio">
+                    <br/>
+                    <h2>Comentarios</h2>
+                    <hr class="separador">
+                    <p>
+                    <#if art.getComments()?has_content>
+                         <#list art.getComments() as comm>
+                             <h4>Autor: ${comm.getAuthor().getUsername()}</h4>
+                            <p><h4 class="stest">${comm.getComment()}</h4></p>
+                            <hr class="separador">
+                         </#list>
+                    <#else >
+                    <h4>Nadie ha comentado en este articulo aun</h4>
+                    </#if>
+                    </p>
+                </div>
+            </div>
 
         </div>
         <div class="rightcolumn">
