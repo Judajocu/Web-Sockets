@@ -8,9 +8,8 @@
 <div class="jumbotron main-jumbotron">
     <div class="container">
         <div class="content">
-            <h1>Practica #3</h1>
-            <p class="margin-bottom">Juan Joa y Melissa </p>
-            <p><a href="#" class="btn btn-white">Learn more</a></p>
+            <h1>Articulo</h1>
+            <p class="margin-bottom"> Aqui se mostrara el articulo junto a toda la informacion que contiene</p>
         </div>
     </div>
 </div>

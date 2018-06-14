@@ -37,6 +37,7 @@
         </div>
             </div>
         </form>
+        <center><p><a href="/" class="btn btn-ghost">Volver</a></p></center>
     </section>
     <#else>
     <section>
