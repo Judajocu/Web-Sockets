@@ -5,6 +5,7 @@
 </#macro>
 
 <#macro page_body>
+<center>
 <div class="jumbotron main-jumbotron">
     <div class="container">
         <div class="content">
@@ -15,30 +16,36 @@
 </div>
     <#if userl??>
         <#if userl.administrator>
-                     <h5>usuario registrado: ${userl.username}</h5>
-
-    <section>
-        <center>
+        <section>
+    <div class="container">
+        <div class="borde">
+            <br/>
+            <h2> Usuarios registrados</h2>
+            <hr class="separador">
             <table>
                 <tr><th>username</th>
                     <th>Nombre</th>
-                    <th>password</th>
-                    <th>administrador</th>
-                    <th>promover?</th>
+                    <th>Password</th>
+                    <th>Autor</th>
+                    <th>Administrador</th>
+                    <th>Promover?</th>
                     <th>Eliminar</th>
                 </tr>
             <#list lista as user>
             <tr><td>${user.username}</td>
                 <td>${user.nombre}</td>
                 <td>${user.password}</td>
+                <td>${user.author?string('si','no')}</td>
                 <td>${user.administrator?string('si','no')}</td>
-                <td><a href="/editaruserForm/${user.username}"><button name="Editar" type="submit">Editar</button></a></td>
-                <td><a href="/deleteuser/${user.username}"><button name="Eliminar" type="submit">Eliminar</button></a></td>
+                <td><a href="/editaruserForm/${user.username}"><button name="Editar" type="submit" class="btn btn-ghost">Editar</button></a></td>
+                <td><a href="/deleteuser/${user.username}"><button name="Eliminar" type="submit" class="btn btn-ghost">Eliminar</button></a></td>
             </tr>
             </#list>
             </table>
-            <p><a href="/addUserForm/"><button name="Agregar Usuario" type="submit">Agregar</button></a></p>
-        </center>
+            <hr class="separador">
+            <p><a href="/addUserForm/"><button name="Agregar Usuario" type="submit" class="btn btn-ghost">Agregar</button></a></p>
+        </div>
+    </div>
     </section>
         </#if>
     <#else>
@@ -56,5 +63,5 @@
     </div>
 </section>
     </#if>
-
+</center>
 </#macro>

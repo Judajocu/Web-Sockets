@@ -13,7 +13,15 @@
     </div>
 </div>
 <center>
+    <section>
+        <div class="container">
+            <div class="borde">
+                <br/>
     <h3>Usuario ha sido borrado exitosamente</h3>
-    <a href="/userlist"><button name="Volver" type="submit">Volver</button></a>
+                <a href="/userlist" class="btn btn-ghost">Volver</a>
+                <br/>
+    </div>
+    </div>
+    </section>
 </center>
 </#macro>

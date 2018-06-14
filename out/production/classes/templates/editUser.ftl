@@ -13,6 +13,12 @@
     </div>
 </div>
 <center>
+    <section>
+        <div class="container">
+            <div class="borde">
+                <br/>
+                <h2> Creacion de usuario</h2>
+                <hr class="separador">
     <form action="/editaruser/${index}/${user}" method="post">
         Username: <input name="username" type="text" value="${user.username}"/><br/>
         Nombre: <input name="nombre" type="text" value="${user.nombre}"/><br/>
@@ -23,11 +29,16 @@
         Autor: <input name="author" type="checkbox"/><br/>
         </#if>
         <#if user.administrator>
-        Autor: <input name="administrator" type="checkbox" checked/><br/>
+        Administrator: <input name="administrator" type="checkbox" checked/><br/>
         <#else >
         Administrator: <input name="administrator" type="checkbox"/><br/>
         </#if>
-        <button name="Enviar" type="submit">Enviar</button>
+        <hr class="separador">
+        <button name="Enviar" type="submit" class="btn btn-ghost">Enviar</button>
     </form>
+            </div>
+        </div>
+        <a href="/userlist" class="btn btn-ghost">Volver</a>
+    </section>
 </center>
 </#macro>
