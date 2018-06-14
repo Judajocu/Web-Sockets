@@ -1,15 +1,15 @@
 <#include "base.ftl">
 
 <#macro page_head>
-<title>Editar articulo</title>
+<title>Editar comentario</title>
 </#macro>
 
 <#macro page_body>
 <div class="jumbotron main-jumbotron">
     <div class="container">
         <div class="content">
-            <h1>Edicion de Articulo</h1>
-            <p class="margin-bottom">Aqui se podran editar los diferentes articulo si se tiene los permisos necesarios </p>
+            <h1>Edicion de comentario</h1>
+            <p class="margin-bottom">Aqui se podran editar los comentarios si se tiene los permisos necesarios </p>
         </div>
     </div>
 </div>

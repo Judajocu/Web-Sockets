@@ -57,7 +57,7 @@ public class Main {
         /*Product estep=prueba.getProduct(1);
         String[] tar={"tag1","tag2","tag3"};
         estep.setTitle("primer articulo");
-        prueba.UpdateProduct(estep,tar);*/
+        prueba.UpdateProduct(estep,tar);
         //prueba.DeleteProduct(7);
 
         CommentServices ccc=new CommentServices();
@@ -86,7 +86,7 @@ public class Main {
             }
 
 
-        }
+        }*/
         //System.out.println(prueba.getProduct(1).getBody());
         /*
 
@@ -118,7 +118,18 @@ public class Main {
         FreeMarkerEngine motor= new FreeMarkerEngine(configuration);
 
         get("/", (request, response) -> {
-            User user= request.session(true).attribute("user");
+            UserServices u=new UserServices();
+            User user =null;
+            String cook=request.cookie("test");
+            System.out.println("El cookie: "+request.cookie("test"));
+            if(u.getUser(cook)!=null){
+                user=u.getUser(cook);
+
+            }
+            else {
+                user= request.session(true).attribute("user");
+            }
+
             productServices manejo_p = new productServices();
             List<Product> articulos= manejo_p.ProductList();
             for(Product p: articulos){
@@ -156,7 +167,9 @@ public class Main {
 
                     request.session(true);
                     request.session().attribute("user", user);
+                    response.cookie("/", "test", user.getUsername(), 3600, false);
                     response.redirect("/");
+
                 } else{
                     response.redirect("/");
                 }
@@ -174,6 +187,7 @@ public class Main {
 
             Session actual = request.session(true);
             actual.invalidate();
+            response.removeCookie("test");
             response.redirect("/");
             return "";
         });
