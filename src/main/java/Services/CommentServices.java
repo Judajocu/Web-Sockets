@@ -2,8 +2,10 @@ package Services;
 
 import Classes.Comment;
 import Classes.Product;
-import Classes.Tag;
 import Classes.User;
+import Services.CommentServices;
+import Services.TagServices;
+import Services.UserServices;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,24 +13,27 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class CommentServices {
 
     public List<Comment> CommentList() {
         List<Comment> list = new ArrayList<>();
+        productServices pro=new productServices();
+        UserServices us=new UserServices();
         Connection con = null; //objeto conexion.
         try {
 
-            String query = "select * from comments";
+            String query = "select * from comments order by id desc";
             con = DatabaseService.getInstancia().getConexion(); //referencia a la conexion.
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 Comment comment = new Comment();
-                comment.setId(rs.getInt("id"));
+                comment.setId(rs.getLong("id"));
                 comment.setComment(rs.getString("comment"));
-                comment.setAuthor(rs.getObject("author", User.class));
-                comment.setProduct(rs.getObject("product", Product.class));
+                comment.setAuthor(us.getUser(rs.getString("username")));
+                comment.setProduct(pro.getProduct(rs.getLong("product")));
 
                 list.add(comment);
             }
@@ -55,6 +60,8 @@ public class CommentServices {
     public Comment getComment(int id) {
         Comment comment = null;
         Connection con = null;
+        productServices pro=new productServices();
+        UserServices us=new UserServices();
         try {
             //utilizando los comodines (?)...
             String query = "select * from commets where id = ?";
@@ -67,10 +74,10 @@ public class CommentServices {
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
                 comment = new Comment();
-                comment.setId(rs.getInt("id"));
+                comment.setId(rs.getLong("id"));
                 comment.setComment(rs.getString("comment"));
-                comment.setAuthor(rs.getObject("author", User.class));
-                comment.setProduct(rs.getObject("product", Product.class));
+                comment.setAuthor(us.getUser(rs.getString("username")));
+                comment.setProduct(pro.getProduct(rs.getLong("product")));
 
             }
 
@@ -93,15 +100,14 @@ public class CommentServices {
         Connection con = null;
         try {
 
-            String query = "insert into comments(id, comment, author, product) values(?,?,?,?)";
+            String query = "insert into comments(comment, username, product) values(?,?,?)";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setLong(1, comment.getId());
-            prepareStatement.setString(2, comment.getComment());
-            prepareStatement.setObject(3, comment.getAuthor());
-            prepareStatement.setObject(4, comment.getProduct());
+            prepareStatement.setString(1, comment.getComment());
+            prepareStatement.setString(2, comment.getAuthor().getUsername());
+            prepareStatement.setLong(3, comment.getProduct().getId());
 
             //
             int fila = prepareStatement.executeUpdate();
@@ -126,20 +132,18 @@ public class CommentServices {
         Connection con = null;
         try {
 
-            String query = "update comments set id=?, comment=?, author=?, product=?, where id = ?";
+            String query = "update comments set comment=?, username=?, product=?, where id = ?";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
 
-
-            prepareStatement.setLong(1, comment.getId());
-            prepareStatement.setString(2, comment.getComment());
-            prepareStatement.setObject(3, comment.getAuthor());
-            prepareStatement.setObject(4, comment.getProduct());
+            prepareStatement.setString(1, comment.getComment());
+            prepareStatement.setObject(2, comment.getAuthor());
+            prepareStatement.setObject(3, comment.getProduct());
 
             //Indica el where...
-            prepareStatement.setLong(5, comment.getId());
+            prepareStatement.setLong(4, comment.getId());
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;

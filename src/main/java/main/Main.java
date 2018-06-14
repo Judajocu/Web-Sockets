@@ -1,5 +1,6 @@
 package main;
 
+import Services.*;
 import freemarker.template.Configuration;
 import spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -13,11 +14,6 @@ import Classes.User;
 import Classes.Comment;
 import Classes.Tag;
 import Classes.Product;
-import Services.TagServices;
-import Services.BootstrapService;
-import Services.DatabaseService;
-import Services.productServices;
-import Services.UserServices;
 
 import static spark.Spark.*;
 
@@ -57,24 +53,45 @@ public class Main {
         }*/
 
         productServices prueba=new productServices();
-        prueba.prueba();
-        /*List<Product> lista = prueba.ProductList();
-        System.out.println("La cantidad de articulo: "+lista.size());
-        for(Product est : lista){
-            System.out.println("La matricula: "+est.getId()+" title: "+ est.getTitle()+",Autor"+est.getAuthor().getUsername()+",fecha"+est.getDateTime());
+        /*UserServices lala=new UserServices();
+        Comment cc=new Comment();
+        cc.setProduct(prueba.getProduct(5));
+        cc.setComment("wow, este articulo es tan fantastico!!");
+        cc.setAuthor(lala.getUser("User"));
+        CommentServices ccc=new CommentServices();
+        ccc.CreateComment(cc);*/
 
+        CommentServices ccc=new CommentServices();
+        List<Comment> cc=ccc.CommentList();
+        System.out.println("La cantidad de comentarios: "+cc.size());
+        for(Comment c: cc){
+            System.out.println("articulo: "+c.getId()+", autor: "+c.getAuthor().getUsername()+" art: "+c.getProduct().getId()+", body: "+c.getComment());
+        }
+        prueba.prueba();
+        List<Product> lista = prueba.ProductList();
+        System.out.println("La cantidad de articulo: "+lista.size());
+        for(Product est : lista) {
+            System.out.println("id: " + est.getId() + " title: " + est.getTitle() + ",Autor: " + est.getAuthor().getUsername() + ",fecha: " + est.getDateTime() + ",# de c: " + est.getComments().size() + ",# de t: " + est.getTags().size());
+        }
 
         //boolean p2 =prueba.DeleteProduct(3);
-        int n=5;
+        int n=1;
         if(prueba.getProduct(n)!=null) {
-            Product p = prueba.getProduct(n);
-            for (Tag est : p.getTags()) {
-                System.out.println("producto:" + p.getId() + ", tag id: " + est.getId() + ", tag name: " + est.getTag());
+            Product p2 = prueba.getProduct(n);
+            p2.setComments(prueba.pComment(p2.getId()));
+            for (Tag est2 : p2.getTags()) {
+                System.out.println("producto:" + p2.getId() + ", tag id: " + est2.getId() + ", tag name: " + est2.getTag());
             }
+            for (Comment est2 : p2.getComments()) {
+                System.out.println("producto:" + p2.getId() + ", coment id: " + est2.getId() + ", coment name: " + est2.getComment()+ ", coment user: " + est2.getAuthor().getUsername());
+            }
+
+
         }
-        }*/
         //System.out.println(prueba.getProduct(1).getBody());
-        /*Date today = Calendar.getInstance().getTime();
+        /*
+
+        Date today = Calendar.getInstance().getTime();
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         System.out.println(sqlDate);*/
@@ -212,6 +229,7 @@ public class Main {
 
             long productid = Long.parseLong(request.params("id"));
             Product p=pro.getProduct(productid);
+            p.setComments(pro.pComment(p.getId()));
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("userl",user);
             mapa.put("art",p);

@@ -29,7 +29,7 @@ public class BootstrapService {
      * @throws SQLException
      */
     public static void CreateTable() throws  SQLException{
-        //String esto = "DROP TABLE TAGPRODUCTS";
+        //String esto = "DROP TABLE COMMENTS";
 
         String sqlUser = "CREATE TABLE IF NOT EXISTS USERS\n" +
                 "(\n" +
@@ -55,7 +55,7 @@ public class BootstrapService {
                 ");";
         String sqlComment = "CREATE TABLE IF NOT EXISTS COMMENTS\n" +
                 "(\n" +
-                "  ID BIGINT PRIMARY KEY NOT NULL,\n" +
+                "  ID BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,\n" +
                 "  COMMENT VARCHAR(10000) NOT NULL,\n" +
                 "  USERNAME VARCHAR(100) NOT NULL,\n" +
                 "  PRODUCT BIGINT NOT NULL,\n" +

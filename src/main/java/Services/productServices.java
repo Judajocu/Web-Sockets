@@ -44,6 +44,7 @@ public class productServices {
 
 
                 product.setTags(pTags(product.getId()));
+                product.setComments(pComment(product.getId()));
                 list.add(product);
             }
 
@@ -87,6 +88,7 @@ public class productServices {
                 product.setAuthor(devolverUser(rs.getString("author")));
                 product.setDateTime(rs.getDate("datep"));
                 product.setTags(pTags(product.getId()));
+                //product.setComments(pComment(product.getId()));
                 //product.setComments((ArrayList<Comment>) rs.getArray("comments"));
                 //product.setTags((ArrayList<Tag>) rs.getArray("tags"));
 
@@ -346,6 +348,22 @@ public class productServices {
         } catch (SQLException ex) {
             Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return et;
+    }
+
+    public List<Comment> pComment(long n){
+        List<Comment> et=new ArrayList<>();
+
+        CommentServices t=new CommentServices();
+        List<Comment> lista = t.CommentList();
+
+        for (Comment c: lista){
+            if(c.getProduct().getId()==n){
+                et.add(c);
+            }
+        }
+
 
         return et;
     }
