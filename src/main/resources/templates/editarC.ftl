@@ -1,15 +1,15 @@
 <#include "base.ftl">
 
 <#macro page_head>
-<title>Crear Articulo</title>
+<title>Editar articulo</title>
 </#macro>
 
 <#macro page_body>
 <div class="jumbotron main-jumbotron">
     <div class="container">
         <div class="content">
-            <h1>Creacion de Articulos</h1>
-            <p class="margin-bottom">Aqui puede crear nuevos articulos que seran mostrados en la pagina </p>
+            <h1>Edicion de Articulo</h1>
+            <p class="margin-bottom">Aqui se podran editar los diferentes articulo si se tiene los permisos necesarios </p>
         </div>
     </div>
 </div>
@@ -17,27 +17,22 @@
 <#if userl??>
     <#if userl.author || userl.administrator>
     <section>
-        <form method="POST" action="/add">
-         <div class="container">
-            <div class="borde">
-                <br/>
-                <h2> Articulo a crear</h2>
-                <hr class="separador">
-                    <label for="titulo" ><h4> Titulo: </h4></label><br/>
-                    <input id = "titulo"name="title" type="text" style="width: 450px;" class="form-control" placeholder="Escriba aqui el titulo" required/><br/>
-                <br/>
+        <form method="POST" action="/editc/${c.getId()?string["0"]}">
+            <div class="container">
+                <div class="borde">
+                    <br/>
+                    <h2> Comentario</h2>
+                    <hr class="separador">
+                    <h4>Autor: ${c.getAuthor().getUsername()}</h4>
                     <label for="contenido" ><h4> Contenido: </h4></label><br/>
-                    <textarea id = "contenido" name="body"  class="form-control" style="width: 950px;"rows="8" placeholder="Escriba aqui el contenido" required></textarea>
-                <br/>
-                    <label for="equiqueta" ><h4> Etiquetas (ejemplo: etiqueta 1, etiqueta 2, etiqueta 2,...)</h4></label><br/>
-                <input id = "equiqueta"name="tag" type="text" style="width: 450px;" class="form-control" placeholder="Escriba aqui las etiquetas" required/><br/>
-                <br/>
-                <hr class="separador">
-                <p><button type="submit" class="btn btn-ghost">Crear</button></p>
-        </div>
+                    <textarea id = "contenido" name="body"  class="form-control" style="width: 950px;"rows="8" required>${c.getComment()}</textarea>
+                    <br/>
+                    <hr class="separador">
+                    <p><button type="submit" class="btn btn-ghost">Guardar Cambios</button></p>
+                </div>
             </div>
         </form>
-        <center><p><a href="/" class="btn btn-ghost">Volver</a></p></center>
+        <center><p><a href="/product/${c.getProduct().getId()?string["0"]}" class="btn btn-ghost">Volver</a></p></center>
     </section>
     <#else>
     <section>

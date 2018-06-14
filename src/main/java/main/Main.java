@@ -58,7 +58,7 @@ public class Main {
         String[] tar={"tag1","tag2","tag3"};
         estep.setTitle("primer articulo");
         prueba.UpdateProduct(estep,tar);*/
-        //prueba.DeleteProduct(6);
+        //prueba.DeleteProduct(7);
 
         CommentServices ccc=new CommentServices();
         List<Comment> cc=ccc.CommentList();
@@ -232,6 +232,7 @@ public class Main {
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("userl",user);
             mapa.put("art",p);
+            System.out.println("art");
             return new ModelAndView(mapa,"producto.ftl");
         },motor);
 
@@ -292,6 +293,60 @@ public class Main {
             ps.UpdateProduct(insertar, tags);
 
             String re ="/product/"+insertar.getId();
+            response.redirect(re);
+            return "";
+        });
+
+        get("/del/:id", (request, response) -> {
+            System.out.println("delete");
+            User user= request.session(true).attribute("user");
+            long productid = Long.parseLong(request.params("id"));
+
+            productServices ps=new productServices();
+            ps.DeleteProduct(productid);
+
+            response.redirect("/");
+            return "";
+        });
+
+        // comentarios
+        get("/editc/:id", (request, response) -> {
+            User user= request.session(true).attribute("user");
+            long productid = Long.parseLong(request.params("id"));
+
+            CommentServices pro=new CommentServices();
+            Comment p=pro.getComment(productid);
+
+            Map<String, Object> mapa = new HashMap<>();
+            mapa.put("userl",user);
+            mapa.put("c",p);
+            return new ModelAndView(mapa, "editarC.ftl");
+        }, motor);
+
+        post("/editc/:id", (request, response) -> {
+            User user= request.session(true).attribute("user");
+            long productid = Long.parseLong(request.params("id"));
+            String body =request.queryParams("body");
+
+            CommentServices ps=new CommentServices();
+            Comment insertar = ps.getComment(productid);
+            insertar.setComment(body);
+            ps.UpdateComment(insertar);
+
+            String re ="/product/"+ insertar.getProduct().getId();
+            response.redirect(re);
+            return "";
+        });
+
+        get("/delc/:id", (request, response) -> {
+            User user= request.session(true).attribute("user");
+            long productid = Long.parseLong(request.params("id"));
+
+            CommentServices ps=new CommentServices();
+            Comment cc= ps.getComment(productid);
+            ps.DeleteComment(productid);
+
+            String re ="/product/"+cc.getProduct().getId();
             response.redirect(re);
             return "";
         });

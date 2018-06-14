@@ -31,14 +31,14 @@
 
                         <#if userl??>
                             <#if userl.administrator || userl.getUsername() == art.getAuthor().getUsername()>
-                            <a href="/" class="especial"><i class="fa fa-close"></i></a>
+                            <a href="/del/${art.getId()?string["0"]}" class="especial"><i class="fa fa-close"></i></a>
                             <a href="/edit/${art.getId()?string["0"]}" class="especial"><i class="fa fa-edit"></i></a>
                             </#if>
                         </#if>
 
                         <h4>${art.getAuthor().getUsername()}, ${art.getDateTime()}</h4>
                         <br/>
-                        <p><h4 class="stest">${art.getBody()}</h4></p>
+                        <p><h4 class="stest" style="white-space: pre-wrap;">${art.getBody()}</h4></p>
                         <hr class="separador">
                         <p>
                          <#list art.getTags() as tag>
@@ -71,8 +71,8 @@
 
                              <#if userl??>
                                  <#if userl.administrator || userl.getUsername() == art.getAuthor().getUsername()>
-                                    <a href="/" class="especial"><i class="fa fa-close"></i></a>
-                                    <a href="/" class="especial"><i class="fa fa-edit"></i></a>
+                                    <a href="/delc/${comm.getId()?string["0"]}" class="especial"><i class="fa fa-close"></i></a>
+                                    <a href="/editc/${comm.getId()?string["0"]}" class="especial"><i class="fa fa-edit"></i></a>
                                  </#if>
                              </#if>
 

@@ -57,14 +57,14 @@ public class CommentServices {
      * @return
      */
 
-    public Comment getComment(int id) {
+    public Comment getComment(long id) {
         Comment comment = null;
         Connection con = null;
         productServices pro=new productServices();
         UserServices us=new UserServices();
         try {
             //utilizando los comodines (?)...
-            String query = "select * from commets where id = ?";
+            String query = "select * from comments where id = ?";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);

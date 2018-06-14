@@ -1,7 +1,7 @@
 <#include "base.ftl">
 
 <#macro page_head>
-<title>Crear Producto</title>
+<title>Crear Articulo</title>
 </#macro>
 
 <#macro page_body>
