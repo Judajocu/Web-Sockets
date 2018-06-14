@@ -34,7 +34,7 @@
                         <h4>${a.getAuthor().getUsername()}, ${a.getDateTime()}</h4>
                         <br/>
                         <p><h4 class="stest">${a.getBody()}</h4></p>
-                        <center><p><a class="btn btn-ghost">Leer más</a></p></center>
+                        <center><p><a href="/product/${a.getId()?string["0"]}" class="btn btn-ghost">Leer más</a></p></center>
                         <hr class="separador">
                         <p>
                          <#list a.getTags() as tag>

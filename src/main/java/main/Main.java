@@ -92,7 +92,6 @@ public class Main {
         //staticFileLocation("/public");
         staticFiles.location("/public");
 
-        ArrayList<Product> ProductList = new ArrayList<Product>();
         ArrayList<User> UserList = new ArrayList<User>();
         ArrayList<Comment> CommentList = new ArrayList<Comment>();
         ArrayList<Tag> TagList = new ArrayList<Tag>();
@@ -206,17 +205,16 @@ public class Main {
             return "";
         });
 
-        get("product/:productid",(request, response) -> {
-            int productid = Integer.parseInt(request.params("productid"));
-            int index = 0;
-            for (Product product: ProductList) {
-                if (product.getId() == productid)
-                {
-                    index = ProductList.indexOf(product);
-                }
-            }
+        get("product/:id",(request, response) -> {
+            User user= request.session(true).attribute("user");
+            productServices pro=new productServices();
+            ArrayList<Product> ProductList = new ArrayList<Product>();
+
+            long productid = Long.parseLong(request.params("id"));
+            Product p=pro.getProduct(productid);
             Map<String, Object> mapa = new HashMap<>();
-            mapa.put("index",index);
+            mapa.put("userl",user);
+            mapa.put("art",p);
             return new ModelAndView(mapa,"producto.ftl");
         },motor);
 

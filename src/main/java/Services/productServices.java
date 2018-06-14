@@ -66,7 +66,7 @@ public class productServices {
      * @return
      */
 
-    public Product getProduct(int id) {
+    public Product getProduct(long id) {
         Product product = null;
         Connection con = null;
         try {
@@ -76,7 +76,7 @@ public class productServices {
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setInt(1, id);
+            prepareStatement.setLong(1, id);
             //Ejecuto...
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
