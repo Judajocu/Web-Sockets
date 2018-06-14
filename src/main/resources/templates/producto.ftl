@@ -47,6 +47,17 @@
                     <br/>
                     <h2>Comentarios</h2>
                     <hr class="separador">
+                    <#if userl??>
+
+                    <form method="POST" action="/addcomment/${art.getId()?string["0"]}">
+                    <label for="contenido" ><h4> Comentario: </h4></label><br/>
+                    <textarea id = "contenido" name="body"  class="form-control" style="width: 750px;"rows="8" placeholder="Escriba aqui su comentario" required></textarea>
+                    <br/>
+                    <p><button type="submit" class="btn btn-ghost">Agregar</button></p>
+                    </form>
+
+                    <hr class="separador">
+                    </#if>
                     <p>
                     <#if art.getComments()?has_content>
                          <#list art.getComments() as comm>

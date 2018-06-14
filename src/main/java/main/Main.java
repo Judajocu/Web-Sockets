@@ -236,6 +236,28 @@ public class Main {
             return new ModelAndView(mapa,"producto.ftl");
         },motor);
 
+        post("/addcomment/:id", (request, response) -> {
+            User user= request.session(true).attribute("user");
+
+            productServices pro=new productServices();
+            long productid = Long.parseLong(request.params("id"));
+            Product p=pro.getProduct(productid);
+
+            String body =request.queryParams("body");
+
+            CommentServices ps=new CommentServices();
+            Comment insertar = new Comment();
+            insertar.setAuthor(user);
+            insertar.setComment(body);
+            insertar.setProduct(p);
+            ps.CreateComment(insertar);
+
+
+            String re ="/product/"+p.getId();
+            response.redirect(re);
+            return "";
+        });
+
         get("/deleteuser/:username", (request, response) -> {
 
             String username = request.params("username");
