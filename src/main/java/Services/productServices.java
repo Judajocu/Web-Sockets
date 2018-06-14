@@ -232,13 +232,14 @@ public class productServices {
         return ok;
     }
 
-    public boolean UpdateProduct(Product product){
+    public boolean UpdateProduct(Product product, String[] tags){
         boolean ok =false;
+        List<Tag> antes= pTags(product.getId());
 
         Connection con = null;
         try {
 
-            String query = "update products set id=?, title=?, body=?, author=?, datep=?, comments=?, tags=? where id = ?";
+            String query = "update products set title=?, body=? where id = ?";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
@@ -247,16 +248,84 @@ public class productServices {
 
             prepareStatement.setString(1, product.getTitle());
             prepareStatement.setString(2, product.getBody());
-            prepareStatement.setObject(3, product.getAuthor());
-            prepareStatement.setDate(4, (Date) product.getDateTime());
-            prepareStatement.setArray(5, (Array) product.getComments());
-            prepareStatement.setArray(6, (Array) product.getTags());
 
             //Indica el where...
-            prepareStatement.setLong(7, product.getId());
+            prepareStatement.setLong(3, product.getId());
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;
+            con.close();
+
+            //lidiando con los tags
+            String borrar = "delete from TAGPRODUCTS where product=?";
+            //
+            con = DatabaseService.getInstancia().getConexion();
+            PreparedStatement pre = con.prepareStatement(borrar);
+            //Antes de ejecutar seteo los parametros.
+            //pre.setLong(1, t2.getId());
+            pre.setLong(1, product.getId());
+            int filas = pre.executeUpdate();
+            ok = filas > 0 ;
+            con.close();
+
+
+            TagServices t=new TagServices();
+            List<Tag> lista = t.TagList();
+
+            for (int i = 0; i < tags.length; i++)
+            {
+                boolean noesta=false;
+                for (Tag t2: lista)
+                {
+                    if(t2.getTag().equals(tags[i]))
+                    {
+                        //insertar en tabla etiqueta y producto
+                        String query3 = "insert into TAGPRODUCTS(tag, product) values(?,?)";
+                        //
+                        con = DatabaseService.getInstancia().getConexion();
+                        PreparedStatement prepareStatement3 = con.prepareStatement(query3);
+                        //Antes de ejecutar seteo los parametros.
+                        prepareStatement3.setLong(1, t2.getId());
+                        prepareStatement3.setLong(2, product.getId());
+                        int fila2 = prepareStatement3.executeUpdate();
+                        ok = fila2 > 0 ;
+                        con.close();
+                        noesta=true;
+                    }
+                }
+                if(!noesta)
+                {
+                    TagServices tass=new TagServices();
+                    Tag insert=new Tag();
+                    insert.setTag(tags[i]);
+                    tass.CreateTag(insert);
+
+                    String querys = "select * from tags order by id desc LIMIT 1";
+                    con = DatabaseService.getInstancia().getConexion();
+                    PreparedStatement prepareStatements = con.prepareStatement(querys);
+                    ResultSet rs2 = prepareStatements.executeQuery();
+                    Tag ya=null;
+                    while(rs2.next()){
+                        ya = new Tag();
+                        ya.setId(rs2.getLong("id"));
+                        ya.setTag(rs2.getString("tag"));
+                    }
+                    con.close();
+
+                    String query4 = "insert into TAGPRODUCTS(tag, product) values(?,?)";
+                    //
+                    con = DatabaseService.getInstancia().getConexion();
+                    PreparedStatement prepareStatement4 = con.prepareStatement(query4);
+                    //Antes de ejecutar seteo los parametros.
+                    prepareStatement4.setLong(1, ya.getId());
+                    prepareStatement4.setLong(2, product.getId());
+                    int fila2 = prepareStatement4.executeUpdate();
+                    ok = fila2 > 0 ;
+                    con.close();
+                    //insertar en tabla etiqueta y producto
+                    //insertar en tabla etiqueta
+                }
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
@@ -271,11 +340,25 @@ public class productServices {
         return ok;
     }
 
-    public boolean DeleteProduct(int id){
+    public boolean DeleteProduct(long id){
         boolean ok =false;
 
         Connection con = null;
         try {
+
+            String borrar = "delete from TAGPRODUCTS where product=?";
+            //
+            con = DatabaseService.getInstancia().getConexion();
+            PreparedStatement pre = con.prepareStatement(borrar);
+            //Antes de ejecutar seteo los parametros.
+            //pre.setLong(1, t2.getId());
+            pre.setLong(1, id);
+            int filas = pre.executeUpdate();
+            ok = filas > 0 ;
+            con.close();
+
+            CommentServices comm=new CommentServices();
+            comm.DeleteComment2(id);
 
             String query = "delete from products where id = ?";
             con = DatabaseService.getInstancia().getConexion();
@@ -283,7 +366,7 @@ public class productServices {
             PreparedStatement prepareStatement = con.prepareStatement(query);
 
             //Indica el where...
-            prepareStatement.setInt(1, id);
+            prepareStatement.setLong(1, id);
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;

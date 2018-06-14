@@ -69,7 +69,7 @@ public class CommentServices {
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
-            prepareStatement.setInt(1, id);
+            prepareStatement.setLong(1, id);
             //Ejecuto...
             ResultSet rs = prepareStatement.executeQuery();
             while(rs.next()){
@@ -132,18 +132,18 @@ public class CommentServices {
         Connection con = null;
         try {
 
-            String query = "update comments set comment=?, username=?, product=?, where id = ?";
+            String query = "update comments set comment=? where id = ?";
             con = DatabaseService.getInstancia().getConexion();
             //
             PreparedStatement prepareStatement = con.prepareStatement(query);
             //Antes de ejecutar seteo los parametros.
 
             prepareStatement.setString(1, comment.getComment());
-            prepareStatement.setObject(2, comment.getAuthor());
-            prepareStatement.setObject(3, comment.getProduct());
+            //prepareStatement.setObject(2, comment.getAuthor());
+            //prepareStatement.setObject(3, comment.getProduct());
 
             //Indica el where...
-            prepareStatement.setLong(4, comment.getId());
+            prepareStatement.setLong(2, comment.getId());
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;
@@ -161,7 +161,7 @@ public class CommentServices {
         return ok;
     }
 
-    public boolean DeleteComment(int id){
+    public boolean DeleteComment(long id){
         boolean ok =false;
 
         Connection con = null;
@@ -173,7 +173,37 @@ public class CommentServices {
             PreparedStatement prepareStatement = con.prepareStatement(query);
 
             //Indica el where...
-            prepareStatement.setInt(1, id);
+            prepareStatement.setLong(1, id);
+            //
+            int fila = prepareStatement.executeUpdate();
+            ok = fila > 0 ;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CommentServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CommentServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return ok;
+    }
+
+    public boolean DeleteComment2(long id){
+        boolean ok =false;
+
+        Connection con = null;
+        try {
+
+            String query = "delete from comments where product = ?";
+            con = DatabaseService.getInstancia().getConexion();
+            //
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+
+            //Indica el where...
+            prepareStatement.setLong(1, id);
             //
             int fila = prepareStatement.executeUpdate();
             ok = fila > 0 ;

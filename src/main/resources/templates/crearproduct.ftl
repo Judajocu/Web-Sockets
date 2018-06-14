@@ -15,7 +15,7 @@
 </div>
 <center>
 <#if userl??>
-    <#if userl.author>
+    <#if userl.author || userl.administrator>
     <section>
         <form method="POST" action="/add">
          <div class="container">

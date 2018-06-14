@@ -53,13 +53,12 @@ public class Main {
         }*/
 
         productServices prueba=new productServices();
-        /*UserServices lala=new UserServices();
-        Comment cc=new Comment();
-        cc.setProduct(prueba.getProduct(5));
-        cc.setComment("wow, este articulo es tan fantastico!!");
-        cc.setAuthor(lala.getUser("User"));
-        CommentServices ccc=new CommentServices();
-        ccc.CreateComment(cc);*/
+
+        /*Product estep=prueba.getProduct(1);
+        String[] tar={"tag1","tag2","tag3"};
+        estep.setTitle("primer articulo");
+        prueba.UpdateProduct(estep,tar);*/
+        prueba.DeleteProduct(6);
 
         CommentServices ccc=new CommentServices();
         List<Comment> cc=ccc.CommentList();
