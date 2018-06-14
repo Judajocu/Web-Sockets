@@ -10,7 +10,7 @@
         <div class="content">
             <h1>Practica #3</h1>
             <p class="margin-bottom">Juan Joa y Melissa </p>
-            <p><a href="#" class="btn btn-white">Learn more</a></p>
+            <p><a href="https://github.com/Melissa13/Http-JDBC_proyect" class="btn btn-white">Learn more</a></p>
         </div>
     </div>
 </div>

@@ -44,15 +44,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
                     <li><a href="/userlist">Usuarios</a></li>
-                    <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Dropdown item 1</a></li>
-                            <li><a href="#">Dropdown item 2</a></li>
-                            <li><a href="#">Dropdown item 3</a></li>
-                            <li><a href="#">Dropdown item 4</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="contact.html">Contact</a></li>
+
                     <#if userl??>
                         <a href="#" class="btn navbar-btn btn-ghost"><h4><i class="	fa fa-user">${userl.username}</i></h4></a>
                         <a href="/logout" class="btn navbar-btn btn-ghost"><i class="fa fa-sign-in"></i>Log out</a>
