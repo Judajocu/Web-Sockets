@@ -221,4 +221,34 @@ public class CommentServices {
         return ok;
     }
 
+    public boolean DeleteComment3(String id){
+        boolean ok =false;
+
+        Connection con = null;
+        try {
+
+            String query = "delete from comments where USERNAME = ?";
+            con = DatabaseService.getInstancia().getConexion();
+            //
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+
+            //Indica el where...
+            prepareStatement.setString(1, id);
+            //
+            int fila = prepareStatement.executeUpdate();
+            ok = fila > 0 ;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CommentServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CommentServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return ok;
+    }
+
 }

@@ -124,7 +124,8 @@ public class Main {
             System.out.println("El cookie: "+request.cookie("test"));
             if(u.getUser(cook)!=null){
                 user=u.getUser(cook);
-
+                request.session(true);
+                request.session().attribute("user", user);
             }
             else {
                 user= request.session(true).attribute("user");
@@ -167,7 +168,7 @@ public class Main {
 
                     request.session(true);
                     request.session().attribute("user", user);
-                    response.cookie("/", "test", user.getUsername(), 3600, false);
+                    response.cookie("/", "test", user.getUsername(), 604800, false);
                     response.redirect("/");
 
                 } else{
@@ -193,7 +194,18 @@ public class Main {
         });
 
         get("/userlist", (request, response) -> {
-            User user= request.session(true).attribute("user");
+            UserServices u=new UserServices();
+            User user =null;
+            String cook=request.cookie("test");
+            System.out.println("El cookie: "+request.cookie("test"));
+            if(u.getUser(cook)!=null){
+                user=u.getUser(cook);
+                request.session(true);
+                request.session().attribute("user", user);
+            }
+            else {
+                user= request.session(true).attribute("user");
+            }
             UserServices servicios_user= new UserServices();
             List<User> usuarios = servicios_user.UserList();
 
@@ -236,7 +248,18 @@ public class Main {
         });
 
         get("product/:id",(request, response) -> {
-            User user= request.session(true).attribute("user");
+            UserServices u=new UserServices();
+            User user =null;
+            String cook=request.cookie("test");
+            System.out.println("El cookie: "+request.cookie("test"));
+            if(u.getUser(cook)!=null){
+                user=u.getUser(cook);
+                request.session(true);
+                request.session().attribute("user", user);
+            }
+            else {
+                user= request.session(true).attribute("user");
+            }
             productServices pro=new productServices();
             ArrayList<Product> ProductList = new ArrayList<Product>();
 
@@ -438,7 +461,7 @@ public class Main {
                         servicios_user.UpdateUser(s);
                     }
                 }
-                response.redirect("/userlist/");
+                response.redirect("/userlist");
             }catch (Exception e){
                 System.out.println(e);
                 response.redirect("/editaruser/");
@@ -477,7 +500,7 @@ public class Main {
                     administrator=true;
                 }
                 servicios_user.CreateUser(new User(Username,Nombre,Password,author,administrator));
-                response.redirect("/userlist/");
+                response.redirect("/userlist");
             }catch (Exception e){
                 System.out.println(e);
                 response.redirect("/addUserForm/");

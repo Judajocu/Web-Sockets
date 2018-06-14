@@ -1,5 +1,6 @@
 package Services;
 
+import Classes.Product;
 import Classes.User;
 
 import java.sql.*;
@@ -151,6 +152,13 @@ public class UserServices {
 
     public boolean DeleteUser(String username){
         boolean ok =false;
+        CommentServices comm=new CommentServices();
+        comm.DeleteComment3(username);
+        productServices pro=new productServices();
+        List<Product> prolist=pro.ProductListUser(username);
+        for(Product pp:prolist){
+            pro.DeleteProduct(pp.getId());
+        }
 
         Connection con = null;
         try {

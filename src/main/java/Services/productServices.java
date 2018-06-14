@@ -384,6 +384,8 @@ public class productServices {
         return ok;
     }
 
+
+
     public User devolverUser(String name)
     {
         User us=null;
@@ -477,6 +479,49 @@ public class productServices {
                 Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public List<Product> ProductListUser(String idd) {
+        List<Product> list = new ArrayList<>();
+        Connection con = null; //objeto conexion.
+        try {
+
+            String query = "select * from products where AUTHOR = ?";
+            con = DatabaseService.getInstancia().getConexion(); //referencia a la conexion.
+            //
+            PreparedStatement prepareStatement = con.prepareStatement(query);
+            prepareStatement.setString(1, idd);
+            ResultSet rs = prepareStatement.executeQuery();
+            while(rs.next()){
+                Product product = new Product();
+                product.setId(rs.getLong("id"));
+                product.setTitle(rs.getString("title"));
+                product.setBody(rs.getString("body"));
+                //
+                product.setAuthor(devolverUser(rs.getString("author")));
+                product.setDateTime(rs.getDate("datep"));
+                //product.setAuthor(rs.getObject("author", User.class));
+
+                //product.setComments((ArrayList<Comment>) rs.getArray("comments"));
+                //product.setTags((ArrayList<Tag>) rs.getArray("tags"));
+
+
+                product.setTags(pTags(product.getId()));
+                product.setComments(pComment(product.getId()));
+                list.add(product);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(productServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
     }
     
 }
