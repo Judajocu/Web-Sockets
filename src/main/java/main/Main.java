@@ -36,7 +36,7 @@ public class Main {
         insertar.setNombre("Carla");
         insertar.setPassword("123");
         insertar.setAuthor(true);
-        insertar.setAdministrator(false);
+        insertar.setAdministrator(true);
         if(servicios_user.getUser(insertar.getUsername())==null){
             servicios_user.CreateUser(insertar);
         }
