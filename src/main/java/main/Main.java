@@ -508,6 +508,19 @@ public class Main {
             return writer;
         });
 
+        before("/userlist/*",(request, response) -> {
+            User user=request.session(true).attribute("usuario");
+            if(user==null){
+                //parada del request, enviando un codigo.
+                halt(401, "No tiene permisos para acceder");
+            }
+            else if(user.isAdministrator()==false)
+            {
+                halt(401, "No tiene permisos para acceder");
+            }
+        });
+
+
     }
 
     public static User encontrarUser(String username){
