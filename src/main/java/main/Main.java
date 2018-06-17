@@ -401,7 +401,7 @@ public class Main {
 
         },motor);
 
-        get("/editaruserForm/:username", (request,response) -> {
+        get("userlist/editaruserForm/:username", (request,response) -> {
 
             String username = request.params("username");
             UserServices servicios_user= new UserServices();
@@ -469,7 +469,7 @@ public class Main {
             return writer;
         });
 
-        get("/addUserForm/", (request, response) -> {
+        get("userlist/addUserForm/", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             return new ModelAndView(attributes, "addUser.ftl");
         }, motor);
@@ -508,16 +508,30 @@ public class Main {
             return writer;
         });
 
+        get("/invalid", (request, response) -> {
+            Map<String,Object> attributes = new HashMap<>();
+            return new ModelAndView(attributes,"invalid.ftl");
+        },motor);
+
         before("/userlist/*",(request, response) -> {
-            User user=request.session(true).attribute("usuario");
-            if(user==null){
-                //parada del request, enviando un codigo.
-                halt(401, "No tiene permisos para acceder");
+            UserServices u=new UserServices();
+            User user =null;
+            String cook=request.cookie("test");
+            System.out.println("El cookie: "+request.cookie("test"));
+            if(u.getUser(cook)!=null){
+                user=u.getUser(cook);
+                System.out.println(user.isAdministrator());
+                request.session(true);
+                request.session().attribute("user", user);
+                if(user.isAdministrator()==false)
+                {
+                    response.redirect("/invalid");
+                }
             }
-            else if(user.isAdministrator()==false)
-            {
-                halt(401, "No tiene permisos para acceder");
+            else if(user==null) {
+                response.redirect("/invalid");
             }
+
         });
 
 

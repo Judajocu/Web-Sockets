@@ -14,8 +14,6 @@
         </div>
     </div>
 </div>
-    <#if userl??>
-        <#if userl.administrator>
         <section>
     <div class="container">
         <div class="borde">
@@ -37,31 +35,16 @@
                 <td>${user.password}</td>
                 <td>${user.author?string('si','no')}</td>
                 <td>${user.administrator?string('si','no')}</td>
-                <td><a href="/editaruserForm/${user.username}"><button name="Editar" type="submit" class="btn btn-ghost">Editar</button></a></td>
-                <td><a href="/deleteuser/${user.username}"><button name="Eliminar" type="submit" class="btn btn-ghost">Eliminar</button></a></td>
+                <td><a href="userlist/editaruserForm/${user.username}"><button name="Editar" type="submit" class="btn btn-ghost">Editar</button></a></td>
+                <td><a href="userlist/deleteuser/${user.username}"><button name="Eliminar" type="submit" class="btn btn-ghost">Eliminar</button></a></td>
             </tr>
             </#list>
             </table>
             <hr class="separador">
-            <p><a href="/addUserForm/"><button name="Agregar Usuario" type="submit" class="btn btn-ghost">Agregar</button></a></p>
+            <p><a href="userlist/addUserForm/"><button name="Agregar Usuario" type="submit" class="btn btn-ghost">Agregar</button></a></p>
         </div>
     </div>
     </section>
-        </#if>
-    <#else>
-<section>
-    <div class="container">
-        <div class="borde">
 
-            <h2> Lo sentimos, usted no esta logueado para tener accedo a esta opcion </h2>
-            <p class="lead">Por favor registrarse para tener acceso a esta función</p>
-
-        </div>
-    </div>
-    <div class="container">
-        <p><a href="/" class="btn btn-ghost">Volver</a></p>
-    </div>
-</section>
-    </#if>
 </center>
 </#macro>
