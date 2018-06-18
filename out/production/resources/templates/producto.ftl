@@ -31,8 +31,8 @@
 
                         <#if userl??>
                             <#if userl.administrator || userl.getUsername() == art.getAuthor().getUsername()>
-                            <a href="/del/${art.getId()?string["0"]}" class="especial"><i class="fa fa-close"></i></a>
-                            <a href="/edit/${art.getId()?string["0"]}" class="especial"><i class="fa fa-edit"></i></a>
+                            <a href="product/del/${art.getId()?string["0"]}" class="especial"><i class="fa fa-close"></i></a>
+                            <a href="product/edit/${art.getId()?string["0"]}" class="especial"><i class="fa fa-edit"></i></a>
                             </#if>
                         </#if>
 
@@ -56,7 +56,7 @@
                     <hr class="separador">
                     <#if userl??>
 
-                    <form method="POST" action="/addcomment/${art.getId()?string["0"]}">
+                    <form method="POST" action="product/addcomment/${art.getId()?string["0"]}">
                     <label for="contenido" ><h4> Comentario: </h4></label><br/>
                     <textarea id = "contenido" name="body"  class="form-control" style="width: 750px;"rows="8" placeholder="Escriba aqui su comentario" required></textarea>
                     <br/>
@@ -71,8 +71,8 @@
 
                              <#if userl??>
                                  <#if userl.administrator || userl.getUsername() == art.getAuthor().getUsername()>
-                                    <a href="/delc/${comm.getId()?string["0"]}" class="especial"><i class="fa fa-close"></i></a>
-                                    <a href="/editc/${comm.getId()?string["0"]}" class="especial"><i class="fa fa-edit"></i></a>
+                                    <a href="product/delc/${comm.getId()?string["0"]}" class="especial"><i class="fa fa-close"></i></a>
+                                    <a href="product/editc/${comm.getId()?string["0"]}" class="especial"><i class="fa fa-edit"></i></a>
                                  </#if>
                              </#if>
 

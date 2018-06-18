@@ -9,17 +9,15 @@
     <div class="jumbotron main-jumbotron">
         <div class="container">
             <div class="content">
-                <h1>Usuarios</h1>
-                <p class="margin-bottom">Aqui se Administran los usuarios</p>
-            </div>
+                <p class="margin-bottom">
         </div>
     </div>
 <section>
     <div class="container">
         <div class="borde">
 
-            <h2> Lo sentimos, usted no esta logueado para tener accedo a esta opcion </h2>
-            <p class="lead">Por favor registrarse para tener acceso a esta función</p>
+            <h2> Lo sentimos, usted no tiene privilegios para tener acceso a esta opcion </h2>
+            <p class="lead">Por favor contacte a un superior para tener acceso a esta función</p>
 
         </div>
     </div>

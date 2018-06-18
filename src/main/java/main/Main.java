@@ -273,7 +273,7 @@ public class Main {
             return new ModelAndView(mapa,"producto.ftl");
         },motor);
 
-        post("/addcomment/:id", (request, response) -> {
+        post("product/addcomment/:id", (request, response) -> {
             User user= request.session(true).attribute("user");
 
             productServices pro=new productServices();
@@ -295,7 +295,7 @@ public class Main {
             return "";
         });
 
-        get("/edit/:id", (request, response) -> {
+        get("product/edit/:id", (request, response) -> {
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
 
@@ -334,7 +334,7 @@ public class Main {
             return "";
         });
 
-        get("/del/:id", (request, response) -> {
+        get("product/del/:id", (request, response) -> {
             System.out.println("delete");
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
@@ -347,7 +347,7 @@ public class Main {
         });
 
         // comentarios
-        get("/editc/:id", (request, response) -> {
+        get("product/editc/:id", (request, response) -> {
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
 
@@ -375,7 +375,7 @@ public class Main {
             return "";
         });
 
-        get("/delc/:id", (request, response) -> {
+        get("product/delc/:id", (request, response) -> {
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
 
@@ -388,7 +388,7 @@ public class Main {
             return "";
         });
 
-        get("/deleteuser/:username", (request, response) -> {
+        get("userlist/deleteuser/:username", (request, response) -> {
 
             String username = request.params("username");
             UserServices servicios_user= new UserServices();
@@ -534,7 +534,68 @@ public class Main {
 
         });
 
+        before("/userlist",(request, response) -> {
+            UserServices u=new UserServices();
+            User user =null;
+            String cook=request.cookie("test");
+            System.out.println("El cookie: "+request.cookie("test"));
+            if(u.getUser(cook)!=null){
+                user=u.getUser(cook);
+                System.out.println(user.isAdministrator());
+                request.session(true);
+                request.session().attribute("user", user);
+                if(user.isAdministrator()==false)
+                {
+                    response.redirect("/invalid");
+                }
+            }
+            else if(user==null) {
+                response.redirect("/invalid");
+            }
 
+        });
+
+        before("/product/(:id)(*)",(request, response) -> {
+            UserServices u=new UserServices();
+            User user =null;
+            String cook=request.cookie("test");
+            System.out.println("El cookie: "+request.cookie("test"));
+            if(u.getUser(cook)!=null){
+                user=u.getUser(cook);
+                System.out.println(user.isAdministrator());
+                request.session(true);
+                request.session().attribute("user", user);
+                if(user.isAdministrator()==false || user.isAuthor()==false)
+                {
+                    response.redirect("/invalid");
+                }
+            }
+            else if(user==null) {
+                response.redirect("/invalid");
+            }
+
+        });
+
+        before("/product",(request, response) -> {
+            UserServices u=new UserServices();
+            User user =null;
+            String cook=request.cookie("test");
+            System.out.println("El cookie: "+request.cookie("test"));
+            if(u.getUser(cook)!=null){
+                user=u.getUser(cook);
+                System.out.println(user.isAdministrator());
+                request.session(true);
+                request.session().attribute("user", user);
+                if(user.isAdministrator()==false || user.isAuthor()==false)
+                {
+                    response.redirect("/invalid");
+                }
+            }
+            else if(user==null) {
+                response.redirect("/invalid");
+            }
+
+        });
     }
 
     public static User encontrarUser(String username){

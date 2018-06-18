@@ -14,8 +14,6 @@
     </div>
 </div>
 <center>
-<#if userl??>
-    <#if userl.author || userl.administrator>
     <section>
         <form method="POST" action="/editc/${c.getId()?string["0"]}">
             <div class="container">
@@ -34,36 +32,5 @@
         </form>
         <center><p><a href="/product/${c.getProduct().getId()?string["0"]}" class="btn btn-ghost">Volver</a></p></center>
     </section>
-    <#else>
-    <section>
-        <div class="container">
-            <div class="borde">
-                <br/>
-                <h2> Lo sentimos, usted no permiso de autor para tener accedo a esta opcion </h2>
-                <p class="lead">Por favor cambie los permisos de autor para tener acceso a esta función</p>
-                <br/>
-
-            </div>
-        </div>
-        <div class="container">
-            <p><a href="/" class="btn btn-ghost">Volver</a></p>
-        </div>
-    </section>
-    </#if>
-<#else>
-<section>
-    <div class="container">
-        <div class="borde">
-            <br/>
-            <h2> Lo sentimos, usted no esta logueado para tener accedo a esta opcion </h2>
-            <p class="lead">Por favor registrarse para tener acceso a esta función</p>
-            <br/>
-        </div>
-    </div>
-    <div class="container">
-        <p><a href="/" class="btn btn-ghost">Volver</a></p>
-    </div>
-</section>
-</#if>
 </center>
 </#macro>
