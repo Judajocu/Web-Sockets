@@ -1,10 +1,17 @@
 package Classes;
 
-public class Comment {
+import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
+public class Comment implements Serializable {
+
+    @Id
     private long id;
     private String comment;
+    @ManyToOne
     private User author;
+    @ManyToOne
     private Product product;
 
     public Comment(long id, String comment, User author, Product product) {

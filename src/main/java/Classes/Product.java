@@ -1,16 +1,27 @@
 package Classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Product {
+@Entity
+public class Product implements Serializable {
+
+    @Id
     private long id;
     private String Title;
     private String Body;
+    @ManyToOne
     private User Author;
     private Date DateTime;
+    @ManyToMany
     private List<Comment> comments;
+    @ManyToMany
     private List<Tag> tags;
 
     public Product(long id, String title, String body, User author, Date dateTime, ArrayList<Comment> comments, ArrayList<Tag> tags) {
