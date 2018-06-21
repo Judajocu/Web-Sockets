@@ -9,6 +9,7 @@ public class Comment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name="COMMENT_ID")
     private long id;
     private String comment;
     @OneToOne()

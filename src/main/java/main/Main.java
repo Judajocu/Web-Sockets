@@ -557,18 +557,23 @@ public class Main {
 
             usuarios.removeIf(User -> User.getUsername().equalsIgnoreCase(username));
             //servicios_user.DeleteUser(username);
-           /* List<Comment> c=CommentServices.getInstancia().findAll();
+            List<Comment> c=CommentServices.getInstancia().findAll();
+            List<Comment> caux=new ArrayList<>();
             for(Comment cc:c){
                 if(cc.getAuthor().equals(username)){
-                    CommentServices.getInstancia().eliminar(cc);
+                    caux.add(cc);
+                    System.out.println("id "+cc.getId()+" username: "+cc.getAuthor().getUsername());
                 }
             }
             List<Product> p=productServices.getInstancia().findAll();
+            List<Product> paux=new ArrayList<>();
             for(Product pp:p){
                 if(pp.getAuthor().equals(username)){
-                    productServices.getInstancia().eliminar(pp);
+                    paux.add(pp);
                 }
-            }*/
+            }
+            for (Comment esc: caux){CommentServices.getInstancia().eliminar(esc);}
+            for (Product pesc: paux){productServices.getInstancia().eliminar(pesc);}
             UserServices.getInstancia().eliminar(username);
             Map<String, Object> mapa = new HashMap<>();
             return new ModelAndView(mapa,"deleteUser.ftl");
