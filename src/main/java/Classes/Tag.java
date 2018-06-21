@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@NamedQueries({@NamedQuery(name = "Tag.findAllBytag", query = "select p from Tag  p where p.tag like :tag")})
 public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

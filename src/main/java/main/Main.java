@@ -49,6 +49,57 @@ public class Main {
         else {System.out.println("no esta");}
 
 
+        /*Product p=new Product();
+        p.setTitle("Articulo 1");
+        p.setBody("primer comentario en un sistema hecho cin hibernate, espacio de mas y fdfbgbddhdfhdfdfhdfhdhg fgfgfjfhfjnfjbnfjd");
+        p.setAuthor(UserServices.getInstancia().find("Admin"));
+        Date today = Calendar.getInstance().getTime();
+        p.setDateTime(today);
+        List<Tag> lala=TagServices.getInstancia().findAllBytag("tag1");
+        p.setTags(lala);
+        productServices.getInstancia().crear(p);*/
+
+        //long i=129;
+        //TagServices.getInstancia().eliminar(i);
+        /*
+        Tag t=new Tag();
+        t.setTag("tag2");
+        boolean exist=false;
+        //TagServices.getInstancia().crear(t);
+
+        List<Tag> ss=TagServices.getInstancia().findAll();
+        for (Tag u: ss){
+            if(u.getTag().equals(t.getTag())){
+                exist=true;
+                System.out.println("existe");
+            }
+        }
+        if(exist=false){
+            TagServices.getInstancia().crear(t);
+        }
+
+        //List<Tag> ss2=TagServices.getInstancia().findAllBytag("tag1");
+        List<Tag> ss2=TagServices.getInstancia().findAll();
+        for (Tag u: ss2){
+            System.out.println("tag ss2: "+u.getTag()+" ID "+ u.getId());
+        }
+
+        List<Product> spp=productServices.getInstancia().findAll();
+        for (Product u: spp){
+            System.out.println("product: "+u.getId()+" titulo "+ u.getTitle()+" body: "+u.getBody()+" fecha: "+u.getDateTime());
+            for (Tag t3:u.getTags()){
+                System.out.println("Tag: "+t3.getTag());
+            }
+        }
+
+        Comment c=new Comment();
+        c.setComment("primer comentario");
+        c.setAuthor(UserServices.getInstancia().find("Admin"));
+        long esto=33;
+        c.setProduct(productServices.getInstancia().find(esto));
+        CommentServices.getInstancia().crear(c);
+        */
+
         //productServices prueba=new productServices();
 
 
@@ -199,7 +250,7 @@ public class Main {
             return new ModelAndView(mapa, "crearproduct.ftl");
         }, motor);
 
-        /*
+
         post("/add", (request, response) -> {
             User user= request.session(true).attribute("user");
 
@@ -208,39 +259,70 @@ public class Main {
             String[] tags =request.queryParams("tag").split(",");
             Date today = Calendar.getInstance().getTime();
 
-            productServices ps=new productServices();
+            //productServices ps=new productServices();
             Product insertar = new Product();
             insertar.setAuthor(user);
             insertar.setTitle(title);
             insertar.setBody(body);
             insertar.setDateTime(today);
-            ps.CreateProduct(insertar, tags);
 
-
+            List<Tag> ss=TagServices.getInstancia().findAll();
+            List<Tag> gt=new ArrayList<>();
+            System.out.println("ENTRA AQUI");
+            for (int i=0;i<tags.length;i++){
+                boolean exist=false;
+                for (Tag u: ss){
+                    if(u.getTag().equals(tags[i])){
+                        exist=true;
+                        List<Tag> aux2=TagServices.getInstancia().findAllBytag(tags[i]);
+                        for (Tag tt: aux2){
+                            gt.add(tt);
+                            System.out.println("TAG YA CREADO!!: "+tt.getTag()+" ID "+ tt.getId());
+                        }
+                    }
+                }
+                if(!exist){
+                    System.out.println("CREAR NUEVO");
+                    Tag t=new Tag();
+                    t.setTag(tags[i]);
+                    System.out.println("A CREAR: "+t.getTag());
+                    TagServices.getInstancia().crear(t);
+                    List<Tag> aux2=TagServices.getInstancia().findAllBytag(tags[i]);
+                    for (Tag tt: aux2){
+                        gt.add(tt);
+                        System.out.println("TAG RECIEN CREADO!!: "+tt.getTag()+" ID "+ tt.getId());
+                    }
+                }
+            }
+            for (Tag u: gt){
+                    System.out.println("tag gt: "+u.getTag()+" ID "+ u.getId());
+            }
+            insertar.setTags(gt);
+            productServices.getInstancia().crear(insertar);
+            //ps.CreateProduct(insertar, tags);
 
             response.redirect("/");
             return "";
         });
 
         get("product/:id",(request, response) -> {
-            UserServices u=new UserServices();
             User user =null;
             String cook=request.cookie("test");
             System.out.println("El cookie: "+request.cookie("test"));
-            if(u.getUser(cook)!=null){
-                user=u.getUser(cook);
+            if(cook != null && !cook.isEmpty()){
+                user=UserServices.getInstancia().find(cook);
                 request.session(true);
                 request.session().attribute("user", user);
             }
             else {
                 user= request.session(true).attribute("user");
             }
-            productServices pro=new productServices();
+            //productServices pro=new productServices();
             ArrayList<Product> ProductList = new ArrayList<Product>();
 
             long productid = Long.parseLong(request.params("id"));
-            Product p=pro.getProduct(productid);
-            p.setComments(pro.pComment(p.getId()));
+            Product p=productServices.getInstancia().find(productid);//pro.getProduct(productid);
+            //p.setComments(pro.pComment(p.getId()));
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("userl",user);
             mapa.put("art",p);
@@ -251,19 +333,16 @@ public class Main {
         post("product/addcomment/:id", (request, response) -> {
             User user= request.session(true).attribute("user");
 
-            productServices pro=new productServices();
             long productid = Long.parseLong(request.params("id"));
-            Product p=pro.getProduct(productid);
+            Product p=productServices.getInstancia().find(productid);//pro.getProduct(productid);
 
             String body =request.queryParams("body");
 
-            CommentServices ps=new CommentServices();
             Comment insertar = new Comment();
             insertar.setAuthor(user);
             insertar.setComment(body);
             insertar.setProduct(p);
-            ps.CreateComment(insertar);
-
+            CommentServices.getInstancia().crear(insertar);
 
             String re ="/product/"+p.getId();
             response.redirect(re);
@@ -274,13 +353,13 @@ public class Main {
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
 
-            productServices pro=new productServices();
-            Product p=pro.getProduct(productid);
+            Product p=productServices.getInstancia().find(productid);//.getProduct(productid);
             String tag="";
             for (Tag t:p.getTags()){
                 tag+=t.getTag()+",";
             }
-            tag.substring(0, Math.min(tag.length(), tag.length()-1));
+            if(tag.length()>1){
+            tag.substring(0, Math.min(tag.length(), tag.length()-1));}
 
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("userl",user);
@@ -298,11 +377,32 @@ public class Main {
             String[] tags =request.queryParams("tag").split(",");
             Date today = Calendar.getInstance().getTime();
 
-            productServices ps=new productServices();
-            Product insertar = ps.getProduct(productid);
+            Product insertar = productServices.getInstancia().find(productid);//ps.getProduct(productid);
             insertar.setTitle(title);
             insertar.setBody(body);
-            ps.UpdateProduct(insertar, tags);
+
+            List<Tag> ss=TagServices.getInstancia().findAll();
+            List<Tag> gt=new ArrayList<>();
+            for (int i=0;i<tags.length;i++){
+                boolean exist=false;
+                for (Tag u: ss){
+                    if(u.getTag().equals(tags[i])){
+                        exist=true;
+                        gt.add(u);
+                    }
+                }
+                if(!exist){
+                    Tag t=new Tag();
+                    t.setTag(tags[i]);
+                    TagServices.getInstancia().crear(t);
+                    List<Tag> aux2=TagServices.getInstancia().findAllBytag(tags[i]);
+                    for (Tag tt: aux2){
+                        gt.add(tt);
+                    }
+                }
+            }
+            insertar.setTags(gt);
+            productServices.getInstancia().editar(insertar);
 
             String re ="/product/"+insertar.getId();
             response.redirect(re);
@@ -314,8 +414,7 @@ public class Main {
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
 
-            productServices ps=new productServices();
-            ps.DeleteProduct(productid);
+            productServices.getInstancia().eliminar(productid);//ps.DeleteProduct(productid);
 
             response.redirect("/");
             return "";
@@ -326,8 +425,7 @@ public class Main {
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
 
-            CommentServices pro=new CommentServices();
-            Comment p=pro.getComment(productid);
+            Comment p=CommentServices.getInstancia().find(productid);//pro.getComment(productid);
 
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("userl",user);
@@ -340,10 +438,9 @@ public class Main {
             long productid = Long.parseLong(request.params("id"));
             String body =request.queryParams("body");
 
-            CommentServices ps=new CommentServices();
-            Comment insertar = ps.getComment(productid);
+            Comment insertar = CommentServices.getInstancia().find(productid);//ps.getComment(productid);
             insertar.setComment(body);
-            ps.UpdateComment(insertar);
+            CommentServices.getInstancia().editar(insertar);//ps.UpdateComment(insertar);
 
             String re ="/product/"+ insertar.getProduct().getId();
             response.redirect(re);
@@ -354,15 +451,14 @@ public class Main {
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
 
-            CommentServices ps=new CommentServices();
-            Comment cc= ps.getComment(productid);
-            ps.DeleteComment(productid);
+            Comment cc= CommentServices.getInstancia().find(productid);//ps.getComment(productid);
+            CommentServices.getInstancia().eliminar(productid);//ps.DeleteComment(productid);
 
             String re ="/product/"+cc.getProduct().getId();
             response.redirect(re);
             return "";
         });
-        */
+
 
         get("userlist/deleteuser/:username", (request, response) -> {
 

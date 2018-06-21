@@ -5,6 +5,8 @@ import Classes.Product;
 import Classes.Tag;
 import Classes.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +30,15 @@ public class TagServices extends DatabaseService<Tag> {
 
     /**
      *
-     * @param nombre
+     * @param tag
      * @return
      */
+    public List<Tag> findAllBytag(String tag){
+        EntityManager em = getEntityManager();
+        Query query = em.createNamedQuery("Tag.findAllBytag");
+        query.setParameter("tag", "%"+tag+"%");
+        List<Tag> lista = query.getResultList();
+        return lista;
+    }
 
 }
