@@ -19,7 +19,7 @@ public class Product implements Serializable {
     @OneToOne()
     private User Author;
     private Date DateTime;
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private List<Comment> comments;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;

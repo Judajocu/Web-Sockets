@@ -474,6 +474,14 @@ public class Main {
             System.out.println("delete");
             User user= request.session(true).attribute("user");
             long productid = Long.parseLong(request.params("id"));
+            List<Comment> c=CommentServices.getInstancia().findAll();
+            System.out.println("pasa por aqui");
+            for(Comment cc:c){
+                if(cc.getProduct().getId()==productid){
+                    //caux.add(cc);
+                    CommentServices.getInstancia().eliminar(cc.getId());
+                }
+            }
 
             productServices.getInstancia().eliminar(productid);//ps.DeleteProduct(productid);
 
@@ -513,7 +521,7 @@ public class Main {
             long productid = Long.parseLong(request.params("id"));
 
             Comment cc= CommentServices.getInstancia().find(productid);//ps.getComment(productid);
-            CommentServices.getInstancia().eliminar(productid);//ps.DeleteComment(productid);
+            CommentServices.getInstancia().eliminar(cc.getId());//ps.DeleteComment(productid);
 
             String re ="/product/"+cc.getProduct().getId();
             response.redirect(re);
@@ -552,28 +560,38 @@ public class Main {
         get("userlist/deleteuser/:username", (request, response) -> {
 
             String username = request.params("username");
+            System.out.println("Username "+username);
             //UserServices servicios_user= new UserServices();
             List<User> usuarios = UserServices.getInstancia().findAll();
 
-            usuarios.removeIf(User -> User.getUsername().equalsIgnoreCase(username));
+            //usuarios.removeIf(User -> User.getUsername().equalsIgnoreCase(username));
             //servicios_user.DeleteUser(username);
             List<Comment> c=CommentServices.getInstancia().findAll();
-            List<Comment> caux=new ArrayList<>();
+            System.out.println("pasa por aqui");
             for(Comment cc:c){
-                if(cc.getAuthor().equals(username)){
-                    caux.add(cc);
+                if(cc.getAuthor().getUsername().equals(username)){
+                    //caux.add(cc);
                     System.out.println("id "+cc.getId()+" username: "+cc.getAuthor().getUsername());
+                    CommentServices.getInstancia().eliminar(cc.getId());
                 }
             }
             List<Product> p=productServices.getInstancia().findAll();
-            List<Product> paux=new ArrayList<>();
             for(Product pp:p){
-                if(pp.getAuthor().equals(username)){
-                    paux.add(pp);
+                if(pp.getAuthor().getUsername().equals(username)){
+                    System.out.println("id product"+pp.getId()+" username: "+pp.getAuthor().getUsername());
+                    List<Comment> ce=CommentServices.getInstancia().findAll();
+                    System.out.println("pasa por aqui");
+                    for(Comment cc:ce){
+                        if(cc.getProduct().getId()==pp.getId()){
+                            //caux.add(cc);
+                            CommentServices.getInstancia().eliminar(cc.getId());
+                        }
+                    }
+                    productServices.getInstancia().eliminar(pp.getId());
                 }
             }
-            for (Comment esc: caux){CommentServices.getInstancia().eliminar(esc);}
-            for (Product pesc: paux){productServices.getInstancia().eliminar(pesc);}
+            //for (Comment esc: caux){CommentServices.getInstancia().eliminar(esc);}
+            //for (Product pesc: paux){productServices.getInstancia().eliminar(pesc);}
             UserServices.getInstancia().eliminar(username);
             Map<String, Object> mapa = new HashMap<>();
             return new ModelAndView(mapa,"deleteUser.ftl");
