@@ -26,7 +26,13 @@
                 <div class="borde">
                     <div class="espacio">
                         <br/>
+                        <a href="#" class="especial"><i class="fa fa-heart">${art.getLikes()}</i></a>
                         <h2>${art.getTitle()}</h2>
+                        <#if userl??>
+                            <a href="/product/dislike/${art.getId()?string["0"]}" class="especial"><i class="fa fa-thumbs-down"></i></a>
+                            <a href="/product/like/${art.getId()?string["0"]}" class="especial"><i class="fa fa-thumbs-up"></i></a>
+                        </#if>
+                        <br/>
                         <hr class="separador">
 
                         <#if userl??>
@@ -39,6 +45,7 @@
                         <h4>${art.getAuthor().getUsername()}, ${art.getDateTime()}</h4>
                         <br/>
                         <p><h4 class="stest" style="white-space: pre-wrap;">${art.getBody()}</h4></p>
+
                         <hr class="separador">
                         <p>
                          <#list art.getTags() as tag>

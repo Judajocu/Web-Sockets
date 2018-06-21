@@ -513,6 +513,34 @@ public class Main {
             return "";
         });
 
+        //likes y dislikes
+        get("product/like/:id", (request, response) -> {
+            User user= request.session(true).attribute("user");
+
+            long productid = Long.parseLong(request.params("id"));
+            Product insertar = productServices.getInstancia().find(productid);
+            insertar.plus();
+
+            productServices.getInstancia().editar(insertar);
+
+            String re ="/product/"+insertar.getId();
+            response.redirect(re);
+            return "";
+        });
+
+        get("product/dislike/:id", (request, response) -> {
+            User user= request.session(true).attribute("user");
+
+            long productid = Long.parseLong(request.params("id"));
+            Product insertar = productServices.getInstancia().find(productid);
+            insertar.minus();
+
+            productServices.getInstancia().editar(insertar);
+
+            String re ="/product/"+insertar.getId();
+            response.redirect(re);
+            return "";
+        });
 
         get("userlist/deleteuser/:username", (request, response) -> {
 
@@ -522,7 +550,7 @@ public class Main {
 
             usuarios.removeIf(User -> User.getUsername().equalsIgnoreCase(username));
             //servicios_user.DeleteUser(username);
-           /* List<Comment> c=CommentServices.getInstancia().findAll();
+           List<Comment> c=CommentServices.getInstancia().findAll();
             for(Comment cc:c){
                 if(cc.getAuthor().equals(username)){
                     CommentServices.getInstancia().eliminar(cc);
@@ -533,7 +561,7 @@ public class Main {
                 if(pp.getAuthor().equals(username)){
                     productServices.getInstancia().eliminar(pp);
                 }
-            }*/
+            }
             UserServices.getInstancia().eliminar(username);
             Map<String, Object> mapa = new HashMap<>();
             return new ModelAndView(mapa,"deleteUser.ftl");
@@ -727,7 +755,7 @@ public class Main {
                 System.out.println(user.isAdministrator());
                 request.session(true);
                 request.session().attribute("user", user);
-                if(user.isAdministrator()==false || user.isAuthor()==false)
+                if(user.isAdministrator()==false && user.isAuthor()==false)
                 {
                     response.redirect("/invalid");
                 }

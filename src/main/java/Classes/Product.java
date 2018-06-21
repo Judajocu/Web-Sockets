@@ -15,6 +15,7 @@ public class Product implements Serializable {
     private long id;
     private String Title;
     private String Body;
+    private Long likes=0L;
     @OneToOne()
     private User Author;
     private Date DateTime;
@@ -90,5 +91,20 @@ public class Product implements Serializable {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
+
+    public void plus() {
+        this.likes++;
+    }
+    public void minus() {
+        this.likes--;
     }
 }

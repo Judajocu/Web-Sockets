@@ -2,6 +2,7 @@ package Classes;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import org.jasypt.util.text.BasicTextEncryptor;
 
 @Entity
 public class Comment implements Serializable {
