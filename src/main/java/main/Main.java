@@ -102,6 +102,10 @@ public class Main {
 
         //productServices prueba=new productServices();
 
+        List<Tag> ss2=TagServices.getInstancia().findAll();
+        for (Tag u: ss2){
+            System.out.println("tag ss2: "+u.getTag()+" ID "+ u.getId());
+        }
 
         /*
 
