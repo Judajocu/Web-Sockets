@@ -1,9 +1,6 @@
 package Classes;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,12 +13,12 @@ public class Product implements Serializable {
     private long id;
     private String Title;
     private String Body;
-    @ManyToOne
+    @ManyToOne()
     private User Author;
     private Date DateTime;
-    @ManyToMany
+    @ManyToMany()
     private List<Comment> comments;
-    @ManyToMany
+    @ManyToMany()
     private List<Tag> tags;
 
     public Product(long id, String title, String body, User author, Date dateTime, ArrayList<Comment> comments, ArrayList<Tag> tags) {

@@ -9,9 +9,9 @@ public class Comment implements Serializable {
     @Id
     private long id;
     private String comment;
-    @ManyToOne
+    @ManyToOne()
     private User author;
-    @ManyToOne
+    @ManyToOne()
     private Product product;
 
     public Comment(long id, String comment, User author, Product product) {
