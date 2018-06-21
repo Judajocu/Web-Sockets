@@ -15,6 +15,8 @@ import Classes.Comment;
 import Classes.Tag;
 import Classes.Product;
 
+import org.jasypt.util.text.BasicTextEncryptor;
+
 import static spark.Spark.*;
 
 public class Main {
@@ -112,6 +114,11 @@ public class Main {
             System.out.println("product: "+u.getId()+" titulo "+ u.getTitle()+" body: "+u.getBody()+" fecha: "+u.getDateTime());
         }
 
+        String prueba = encrypt("prueba");
+        System.out.println(prueba);
+        prueba = decrypt(prueba);
+        System.out.println(prueba);
+
         /*
 
         Date today = Calendar.getInstance().getTime();
@@ -144,7 +151,7 @@ public class Main {
         get("/", (request, response) -> {
             //UserServices u=new UserServices();
             User user =null;
-            String cook=request.cookie("test");
+            String cook=decrypt(request.cookie("test"));
             System.out.println("El cookie: "+request.cookie("test"));
             if(cook != null && !cook.isEmpty()){
                 user=UserServices.getInstancia().find(cook);
@@ -188,7 +195,7 @@ public class Main {
         get("/tag/:id", (request, response) -> {
             //UserServices u=new UserServices();
             User user =null;
-            String cook=request.cookie("test");
+            String cook=decrypt(request.cookie("test"));
             System.out.println("El cookie: "+request.cookie("test"));
             if(cook != null && !cook.isEmpty()){
                 user=UserServices.getInstancia().find(cook);
@@ -248,7 +255,7 @@ public class Main {
 
                     request.session(true);
                     request.session().attribute("user", user);
-                    response.cookie("/", "test", user.getUsername(), 604800, false);
+                    response.cookie("/", "test", encrypt(user.getUsername()), 604800, false);
                     response.redirect("/");
 
                 } else{
@@ -275,7 +282,7 @@ public class Main {
 
         get("/userlist", (request, response) -> {
             User user =null;
-            String cook=request.cookie("test");
+            String cook=decrypt(request.cookie("test"));
             System.out.println("El cookie: "+request.cookie("test"));
             if(cook != null && !cook.isEmpty()){
                 user=UserServices.getInstancia().find(cook);
@@ -361,7 +368,7 @@ public class Main {
 
         get("product/:id",(request, response) -> {
             User user =null;
-            String cook=request.cookie("test");
+            String cook=decrypt(request.cookie("test"));
             System.out.println("El cookie: "+request.cookie("test"));
             if(cook != null && !cook.isEmpty()){
                 user=UserServices.getInstancia().find(cook);
@@ -550,7 +557,7 @@ public class Main {
 
             usuarios.removeIf(User -> User.getUsername().equalsIgnoreCase(username));
             //servicios_user.DeleteUser(username);
-           List<Comment> c=CommentServices.getInstancia().findAll();
+           /* List<Comment> c=CommentServices.getInstancia().findAll();
             for(Comment cc:c){
                 if(cc.getAuthor().equals(username)){
                     CommentServices.getInstancia().eliminar(cc);
@@ -561,7 +568,7 @@ public class Main {
                 if(pp.getAuthor().equals(username)){
                     productServices.getInstancia().eliminar(pp);
                 }
-            }
+            }*/
             UserServices.getInstancia().eliminar(username);
             Map<String, Object> mapa = new HashMap<>();
             return new ModelAndView(mapa,"deleteUser.ftl");
@@ -685,7 +692,7 @@ public class Main {
         before("/userlist/*",(request, response) -> {
             //UserServices u=new UserServices();
             User user =null;
-            String cook=request.cookie("test");
+            String cook=decrypt(request.cookie("test"));
             System.out.println("El cookie: "+request.cookie("test"));
             if(cook != null && !cook.isEmpty()){
                 user=UserServices.getInstancia().find(cook);
@@ -706,7 +713,7 @@ public class Main {
         before("/userlist",(request, response) -> {
             //UserServices u=new UserServices();
             User user =null;
-            String cook=request.cookie("test");
+            String cook=decrypt(request.cookie("test"));
             System.out.println("El cookie: "+request.cookie("test"));
             if(cook != null && !cook.isEmpty()){
                 user=UserServices.getInstancia().find(cook);
@@ -727,7 +734,7 @@ public class Main {
         before("/product/(:id)(*)",(request, response) -> {
             //UserServices u=new UserServices();
             User user =null;
-            String cook=request.cookie("test");
+            String cook=decrypt(request.cookie("test"));
             System.out.println("El cookie: "+request.cookie("test"));
             if(cook != null && !cook.isEmpty()){
                 user=UserServices.getInstancia().find(cook);
@@ -748,7 +755,7 @@ public class Main {
         before("/product",(request, response) -> {
             //UserServices u=new UserServices();
             User user =null;
-            String cook=request.cookie("test");
+            String cook=decrypt(request.cookie("test"));
             System.out.println("El cookie: "+request.cookie("test"));
             if(cook != null && !cook.isEmpty()){
                 user=UserServices.getInstancia().find(cook);
@@ -765,6 +772,22 @@ public class Main {
             }
 
         });
+    }
+
+    public static String encrypt(String secret){
+        BasicTextEncryptor a = new BasicTextEncryptor();
+        a.setPasswordCharArray("some-random-data".toCharArray());
+        String topsecret = a.encrypt(secret);
+        return topsecret;
+
+    }
+
+    public static String decrypt(String secret){
+        BasicTextEncryptor a = new BasicTextEncryptor();
+        a.setPasswordCharArray("some-random-data".toCharArray());
+        String topsecret = a.decrypt(secret);
+
+        return topsecret;
     }
 
     /*public static User encontrarUser(String username){
