@@ -17,6 +17,9 @@ import Services.CommentServices;
 import Services.TagServices;
 import Services.UserServices;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 public class productServices extends DatabaseService<Product> {
 
     private static productServices instancia;
@@ -34,8 +37,16 @@ public class productServices extends DatabaseService<Product> {
 
     /**
      *
-     * @param nombre
+     * @param id
      * @return
      */
+
+    public List<Product> findAllById(){
+        EntityManager em = getEntityManager();
+        Query query = em.createNamedQuery("Product.findAllById");
+        //query.setParameter("username", "%"+username+"%");
+        List<Product> lista = query.getResultList();
+        return lista;
+    }
     
 }

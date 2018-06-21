@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@NamedQueries({@NamedQuery(name = "Product.findAllById", query = "select p from Product  p ORDER BY p.id DESC ")})
 public class Product implements Serializable {
 
     @Id

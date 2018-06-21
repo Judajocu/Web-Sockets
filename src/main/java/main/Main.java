@@ -107,6 +107,11 @@ public class Main {
             System.out.println("tag ss2: "+u.getTag()+" ID "+ u.getId());
         }
 
+        List<Product> spp=productServices.getInstancia().findAllById();
+        for (Product u: spp){
+            System.out.println("product: "+u.getId()+" titulo "+ u.getTitle()+" body: "+u.getBody()+" fecha: "+u.getDateTime());
+        }
+
         /*
 
         Date today = Calendar.getInstance().getTime();
@@ -162,7 +167,7 @@ public class Main {
             }*/
 
             //productServices manejo_p = new productServices();
-            List<Product> articulos= productServices.getInstancia().findAll();
+            List<Product> articulos= productServices.getInstancia().findAllById();
             for(Product p: articulos){
                 String up = p.getBody().substring(0, Math.min(p.getBody().length(), 70));
                 //System.out.println("caracteres "+up);
@@ -472,6 +477,18 @@ public class Main {
 
             usuarios.removeIf(User -> User.getUsername().equalsIgnoreCase(username));
             //servicios_user.DeleteUser(username);
+           /* List<Comment> c=CommentServices.getInstancia().findAll();
+            for(Comment cc:c){
+                if(cc.getAuthor().equals(username)){
+                    CommentServices.getInstancia().eliminar(cc);
+                }
+            }
+            List<Product> p=productServices.getInstancia().findAll();
+            for(Product pp:p){
+                if(pp.getAuthor().equals(username)){
+                    productServices.getInstancia().eliminar(pp);
+                }
+            }*/
             UserServices.getInstancia().eliminar(username);
             Map<String, Object> mapa = new HashMap<>();
             return new ModelAndView(mapa,"deleteUser.ftl");
