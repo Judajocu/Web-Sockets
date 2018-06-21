@@ -2,9 +2,12 @@ package Classes;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.io.Serializable;
 
 @Entity
+@NamedQueries({@NamedQuery(name = "User.findAllByUsername", query = "select p from User  p where p.Username like :username")})
 public class User implements Serializable {
 
     @Id

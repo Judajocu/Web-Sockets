@@ -3,6 +3,8 @@ package Services;
 import Classes.Product;
 import Classes.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +31,14 @@ public class UserServices extends DatabaseService<User> {
      * @param username
      * @return
      */
+
+    public List<User> findAllByUsername(String username){
+        EntityManager em = getEntityManager();
+        Query query = em.createNamedQuery("User.findAllByUsername");
+        query.setParameter("username", "%"+username+"%");
+        List<User> lista = query.getResultList();
+        return lista;
+    }
+
 
 }
