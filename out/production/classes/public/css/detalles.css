@@ -137,7 +137,6 @@ tr:nth-child(even) {
 }
 
 .current{
-    border: 1px solid dodgerblue;
     background-color: dodgerblue;
     color: white;
 }

@@ -1,16 +1,14 @@
 <#include "base.ftl">
 
 <#macro page_head>
-<title>Inicio</title>
+<title>Buscar tag</title>
 </#macro>
 
 <#macro page_body>
 <div class="jumbotron main-jumbotron">
     <div class="container">
         <div class="content">
-            <h1>Practica #3</h1>
-            <p class="margin-bottom">Juan Joa y Melissa </p>
-            <p><a href="https://github.com/Melissa13/Http-JDBC_proyect" class="btn btn-white">Learn more</a></p>
+            <h1>Tag: ${tt.getTag()}</h1>
         </div>
     </div>
 </div>
@@ -28,24 +26,24 @@
             <#if art??>
                 <#list art as a>
                 <div class="line-content">
-                <div class="borde">
-                    <div class="espacio">
-                        <br/>
-                        <h2>${a.getTitle()}</h2>
-                        <hr class="separador">
-                        <h4>${a.getAuthor().getUsername()}, ${a.getDateTime()}</h4>
-                        <br/>
-                        <p><h4 class="stest" style="white-space: pre-wrap;">${a.getBody()}</h4></p>
-                        <center><p><a href="/product/${a.getId()?string["0"]}" class="btn btn-ghost">Leer más</a></p></center>
-                        <hr class="separador">
-                        <p>
+                    <div class="borde">
+                        <div class="espacio">
+                            <br/>
+                            <h2>${a.getTitle()}</h2>
+                            <hr class="separador">
+                            <h4>${a.getAuthor().getUsername()}, ${a.getDateTime()}</h4>
+                            <br/>
+                            <p><h4 class="stest" style="white-space: pre-wrap;">${a.getBody()}</h4></p>
+                            <center><p><a href="/product/${a.getId()?string["0"]}" class="btn btn-ghost">Leer más</a></p></center>
+                            <hr class="separador">
+                            <p>
                          <#list a.getTags() as tag>
                              <a class="etiqueta" href="/tag/${tag.getId()?string["0"]}"> ${tag.getTag()} </a>
                          </#list>
-                        </p>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            <br/>
+                    <br/>
                 </div>
                 </#list>
             </#if>
@@ -62,19 +60,21 @@
                 <center><p><a href="/product" class="btn btn-ghost">crear Articulo</a></p></center>
             </div>
 
-                <div class="borde">
-                    <center>
-                    <br/>
-                    <h2>Lista de tags</h2>
-                    <hr class="separador">
+            <div class="borde">
+                <center>
+                <br/>
+                <h2>Lista de tags</h2>
+                <hr class="separador">
+                <center>
                     <#list tl as tag>
                         <a class="etiqueta" href="/tag/${tag.getId()?string["0"]}"> ${tag.getTag()} </a>
                     </#list>
-                    </center>
-                    <br/>
-                    <br/>
-                    </center>
-                </div>
+                </center>
+                <br/>
+                <br/>
+                 </center>
+
+            </div>
 
         </div>
     </div>

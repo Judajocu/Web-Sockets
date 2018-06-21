@@ -42,7 +42,7 @@
                         <hr class="separador">
                         <p>
                          <#list art.getTags() as tag>
-                             <a class="etiqueta"> ${tag.getTag()} </a>
+                             <a class="etiqueta" href="/tag/${tag.getId()?string["0"]}"> ${tag.getTag()} </a>
                          </#list>
                         </p>
                     </div>

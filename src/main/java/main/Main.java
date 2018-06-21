@@ -175,13 +175,58 @@ public class Main {
                 p.setBody(up+"...");
             }
 
-
+            List<Tag> mtag=TagServices.getInstancia().findAll();
 
             Map<String, Object> mapa = new HashMap<>();
             mapa.put("name","Bienvenidos");
             mapa.put("userl",user);
             mapa.put("art",articulos);
+            mapa.put("tl",mtag);
             return new ModelAndView(mapa, "inicio.ftl");
+        }, motor);
+
+        get("/tag/:id", (request, response) -> {
+            //UserServices u=new UserServices();
+            User user =null;
+            String cook=request.cookie("test");
+            System.out.println("El cookie: "+request.cookie("test"));
+            if(cook != null && !cook.isEmpty()){
+                user=UserServices.getInstancia().find(cook);
+                request.session(true);
+                request.session().attribute("user", user);
+            }
+            else {
+                user= request.session(true).attribute("user");
+            }
+            long productid = Long.parseLong(request.params("id"));
+            Tag tt=TagServices.getInstancia().find(productid);
+
+            //productServices manejo_p = new productServices();
+            List<Product> aux= productServices.getInstancia().findAllById();
+            List<Product> articulos= new ArrayList<>();
+            for(Product pro:aux){
+                boolean esta=false;
+                for(Tag aux2:pro.getTags()){
+                    if(aux2.getId()==tt.getId()){
+                        esta=true;
+                    }
+                }
+                if(esta){articulos.add(pro);}
+            }
+            for(Product p: articulos){
+                String up = p.getBody().substring(0, Math.min(p.getBody().length(), 70));
+                p.setBody(up+"...");
+            }
+
+            List<Tag> mtag=TagServices.getInstancia().findAll();
+
+            Map<String, Object> mapa = new HashMap<>();
+            mapa.put("name","Bienvenidos");
+            mapa.put("userl",user);
+            mapa.put("art",articulos);
+            mapa.put("tl",mtag);
+            mapa.put("tt",tt);
+            return new ModelAndView(mapa, "bytag.ftl");
         }, motor);
 
         Spark.get("/login", (request, response) -> {

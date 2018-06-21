@@ -40,7 +40,7 @@
                         <hr class="separador">
                         <p>
                          <#list a.getTags() as tag>
-                             <a class="etiqueta"> ${tag.getTag()} </a>
+                             <a class="etiqueta" href="/tag/${tag.getId()?string["0"]}"> ${tag.getTag()} </a>
                          </#list>
                         </p>
                     </div>
@@ -63,16 +63,17 @@
             </div>
 
                 <div class="borde">
+                    <center>
+                    <br/>
+                    <h2>Lista de tags</h2>
+                    <hr class="separador">
+                    <#list tl as tag>
+                        <a class="etiqueta" href="/tag/${tag.getId()?string["0"]}"> ${tag.getTag()} </a>
+                    </#list>
+                    </center>
                     <br/>
                     <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-
+                    </center>
                 </div>
 
         </div>
@@ -82,11 +83,14 @@
     pageSize = 5;
 
     var pageCount =  $(".line-content").length / pageSize;
+    $("#pagin").append('<li><a href="#">&laquo;</a></li> ');
 
     for(var i = 0 ; i<pageCount;i++){
 
         $("#pagin").append('<li><a href="#">'+(i+1)+'</a></li> ');
     }
+    $("#pagin").append('<li><a href="#">&raquo;</a></li> ');
+
     $("#pagin li").first().find("a").addClass("current")
     showPage = function(page) {
         $(".line-content").hide();
