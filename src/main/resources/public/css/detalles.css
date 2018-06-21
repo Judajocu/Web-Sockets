@@ -121,3 +121,28 @@ tr:nth-child(even) {
     background-color: #f2f2f2
 }
 
+.current {
+    color: green;
+}
+
+#pagin li {
+    display: inline-block;
+    border: 1px solid #1989B8;
+    border-radius: 4px;
+    background-color: white;
+    font-family: inherit;
+    margin: 4px 2px;
+    padding: 3px 5px;
+    text-align: center;
+}
+
+.current{
+    background-color: dodgerblue;
+    color: white;
+}
+#pagin li:hover:not(.active) {
+    background-color: lightblue;
+    color: white;
+    border-radius: 5px;
+}
+
