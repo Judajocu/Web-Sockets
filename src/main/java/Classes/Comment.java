@@ -7,9 +7,10 @@ import java.io.Serializable;
 public class Comment implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String comment;
-    @ManyToOne()
+    @OneToOne()
     private User author;
     @ManyToOne()
     private Product product;

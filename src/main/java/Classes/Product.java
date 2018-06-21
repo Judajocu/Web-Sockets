@@ -10,10 +10,11 @@ import java.util.List;
 public class Product implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String Title;
     private String Body;
-    @ManyToOne()
+    @OneToOne()
     private User Author;
     private Date DateTime;
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)

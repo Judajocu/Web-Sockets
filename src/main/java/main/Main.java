@@ -20,15 +20,17 @@ import static spark.Spark.*;
 public class Main {
     public static void main(String[] args)throws SQLException {
 
+
         //Iniciando el servicio
-        BootstrapService.startDb();
+        BootstrapService.getInstancia().init();
+        /*BootstrapService.startDb();
 
         //Prueba de Conexión.
         DatabaseService.getInstancia().testConexion();
 
         BootstrapService.CreateTable();
 
-        UserServices servicios_user= new UserServices();
+        UserServices servicios_user= new UserServices();*/
 
         //Insertando administrador por defecto
         User insertar = new User();
@@ -37,71 +39,33 @@ public class Main {
         insertar.setPassword("123");
         insertar.setAuthor(true);
         insertar.setAdministrator(true);
-        if(servicios_user.getUser(insertar.getUsername())==null){
-            servicios_user.CreateUser(insertar);
+        UserServices.getInstancia().crear(insertar);
+
+        User a=null;
+        a=UserServices.getInstancia().find("Admin");
+        if(a!=null){
+            System.out.println("Username "+a.getUsername());
         }
+        else {System.out.println("no esta");}
 
 
-        /*UserServices prueb=new UserServices();
-        User u=prueb.getUser("User");
-        u.setAdministrator(false);
-        prueb.UpdateUser(u);
-        List<User> list = prueb.UserList();
-        System.out.println("La cantidad de users: "+list.size());
-        for(User est : list){
-            System.out.println("user: "+est.getUsername()+", pass: "+ est.getPassword()+", name: "+ est.getNombre()+", author: "+ est.isAuthor()+", admin: "+ est.isAdministrator());
-        }*/
-
-        productServices prueba=new productServices();
-
-        /*Product estep=prueba.getProduct(1);
-        String[] tar={"tag1","tag2","tag3"};
-        estep.setTitle("primer articulo");
-        prueba.UpdateProduct(estep,tar);
-        //prueba.DeleteProduct(7);
-
-        CommentServices ccc=new CommentServices();
-        List<Comment> cc=ccc.CommentList();
-        System.out.println("La cantidad de comentarios: "+cc.size());
-        for(Comment c: cc){
-            System.out.println("articulo: "+c.getId()+", autor: "+c.getAuthor().getUsername()+" art: "+c.getProduct().getId()+", body: "+c.getComment());
-        }
-        prueba.prueba();
-        List<Product> lista = prueba.ProductList();
-        System.out.println("La cantidad de articulo: "+lista.size());
-        for(Product est : lista) {
-            System.out.println("id: " + est.getId() + " title: " + est.getTitle() + ",Autor: " + est.getAuthor().getUsername() + ",fecha: " + est.getDateTime() + ",# de c: " + est.getComments().size() + ",# de t: " + est.getTags().size());
-        }
-
-        //boolean p2 =prueba.DeleteProduct(3);
-        int n=1;
-        if(prueba.getProduct(n)!=null) {
-            Product p2 = prueba.getProduct(n);
-            p2.setComments(prueba.pComment(p2.getId()));
-            for (Tag est2 : p2.getTags()) {
-                System.out.println("producto:" + p2.getId() + ", tag id: " + est2.getId() + ", tag name: " + est2.getTag());
-            }
-            for (Comment est2 : p2.getComments()) {
-                System.out.println("producto:" + p2.getId() + ", coment id: " + est2.getId() + ", coment name: " + est2.getComment()+ ", coment user: " + est2.getAuthor().getUsername());
-            }
+        //productServices prueba=new productServices();
 
 
-        }*/
-        //System.out.println(prueba.getProduct(1).getBody());
         /*
 
         Date today = Calendar.getInstance().getTime();
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         System.out.println(sqlDate);*/
-        new Main().manejadorFremarker();
+        manejadorFremarker();
 
         //BootstrapService.stopDb();
 
 
     }
 
-    public void manejadorFremarker()throws SQLException{
+    public static void manejadorFremarker()throws SQLException{
 
         //
 
@@ -118,12 +82,12 @@ public class Main {
         FreeMarkerEngine motor= new FreeMarkerEngine(configuration);
 
         get("/", (request, response) -> {
-            UserServices u=new UserServices();
+            //UserServices u=new UserServices();
             User user =null;
             String cook=request.cookie("test");
             System.out.println("El cookie: "+request.cookie("test"));
-            if(u.getUser(cook)!=null){
-                user=u.getUser(cook);
+            if(cook != null && !cook.isEmpty()){
+                user=UserServices.getInstancia().find(cook);
                 request.session(true);
                 request.session().attribute("user", user);
             }
@@ -131,8 +95,19 @@ public class Main {
                 user= request.session(true).attribute("user");
             }
 
-            productServices manejo_p = new productServices();
-            List<Product> articulos= manejo_p.ProductList();
+
+            /*user=UserServices.getInstancia().find("Admin");
+            if(UserServices.getInstancia().find(cook)!=null){
+                user=UserServices.getInstancia().find(cook);
+                request.session(true);
+                request.session().attribute("user", user);
+            }
+            else {
+                user= request.session(true).attribute("user");
+            }*/
+
+            //productServices manejo_p = new productServices();
+            List<Product> articulos= productServices.getInstancia().findAll();
             for(Product p: articulos){
                 String up = p.getBody().substring(0, Math.min(p.getBody().length(), 70));
                 //System.out.println("caracteres "+up);
@@ -161,7 +136,7 @@ public class Main {
             String username =request.queryParams("username") != null ? request.queryParams("username") : "unknown";
             String pass =request.queryParams("username") != null ? request.queryParams("pass") : "unknown";
 
-            User user = encontrarUser(username);
+            User user = UserServices.getInstancia().find(username);
             //System.out.println("usuario "+ user.getUsername());
             if(user!=null){
                 if(user.getPassword().equals(pass)) {
@@ -194,20 +169,19 @@ public class Main {
         });
 
         get("/userlist", (request, response) -> {
-            UserServices u=new UserServices();
             User user =null;
             String cook=request.cookie("test");
             System.out.println("El cookie: "+request.cookie("test"));
-            if(u.getUser(cook)!=null){
-                user=u.getUser(cook);
+            if(cook != null && !cook.isEmpty()){
+                user=UserServices.getInstancia().find(cook);
                 request.session(true);
                 request.session().attribute("user", user);
             }
             else {
                 user= request.session(true).attribute("user");
             }
-            UserServices servicios_user= new UserServices();
-            List<User> usuarios = servicios_user.UserList();
+            //UserServices servicios_user= new UserServices();
+            List<User> usuarios = UserServices.getInstancia().findAll();
 
 
             Map<String, Object> mapa = new HashMap<>();
@@ -225,6 +199,7 @@ public class Main {
             return new ModelAndView(mapa, "crearproduct.ftl");
         }, motor);
 
+        /*
         post("/add", (request, response) -> {
             User user= request.session(true).attribute("user");
 
@@ -387,15 +362,17 @@ public class Main {
             response.redirect(re);
             return "";
         });
+        */
 
         get("userlist/deleteuser/:username", (request, response) -> {
 
             String username = request.params("username");
-            UserServices servicios_user= new UserServices();
-            List<User> usuarios = servicios_user.UserList();
+            //UserServices servicios_user= new UserServices();
+            List<User> usuarios = UserServices.getInstancia().findAll();
 
             usuarios.removeIf(User -> User.getUsername().equalsIgnoreCase(username));
-            servicios_user.DeleteUser(username);
+            //servicios_user.DeleteUser(username);
+            UserServices.getInstancia().eliminar(username);
             Map<String, Object> mapa = new HashMap<>();
             return new ModelAndView(mapa,"deleteUser.ftl");
 
@@ -404,8 +381,8 @@ public class Main {
         get("userlist/editaruserForm/:username", (request,response) -> {
 
             String username = request.params("username");
-            UserServices servicios_user= new UserServices();
-            List<User> usuarios = servicios_user.UserList();
+            //UserServices servicios_user= new UserServices();
+            List<User> usuarios = UserServices.getInstancia().findAll();
             User user = new User();
             int index = 0;
             for (User usr: usuarios) {
@@ -425,8 +402,8 @@ public class Main {
 
         Spark.post("/editaruser/:index/:user", (request, response) -> {
             StringWriter writer = new StringWriter();
-            UserServices servicios_user= new UserServices();
-            List<User> usuarios = servicios_user.UserList();
+            //UserServices servicios_user= new UserServices();
+            List<User> usuarios = UserServices.getInstancia().findAll();
             int index = Integer.parseInt(request.params("index"));
             try {
                 String Username = request.queryParams("username");
@@ -458,7 +435,8 @@ public class Main {
                         s.setPassword(Password);
                         s.setAuthor(author);
                         s.setAdministrator(administrator);
-                        servicios_user.UpdateUser(s);
+                        //servicios_user.UpdateUser(s);
+                        UserServices.getInstancia().editar(s);
                     }
                 }
                 response.redirect("/userlist");
@@ -476,7 +454,7 @@ public class Main {
 
         Spark.post("/AddUser/", (request, response) -> {
             StringWriter writer = new StringWriter();
-            UserServices servicios_user= new UserServices();
+            //UserServices servicios_user= new UserServices();
             try {
                 String Username = request.queryParams("username");
                 String Nombre = request.queryParams("nombre");
@@ -499,7 +477,8 @@ public class Main {
                 {
                     administrator=true;
                 }
-                servicios_user.CreateUser(new User(Username,Nombre,Password,author,administrator));
+                UserServices.getInstancia().crear(new User(Username,Nombre,Password,author,administrator));
+                //servicios_user.CreateUser(new User(Username,Nombre,Password,author,administrator));
                 response.redirect("/userlist");
             }catch (Exception e){
                 System.out.println(e);
@@ -514,12 +493,12 @@ public class Main {
         },motor);
 
         before("/userlist/*",(request, response) -> {
-            UserServices u=new UserServices();
+            //UserServices u=new UserServices();
             User user =null;
             String cook=request.cookie("test");
             System.out.println("El cookie: "+request.cookie("test"));
-            if(u.getUser(cook)!=null){
-                user=u.getUser(cook);
+            if(cook != null && !cook.isEmpty()){
+                user=UserServices.getInstancia().find(cook);
                 System.out.println(user.isAdministrator());
                 request.session(true);
                 request.session().attribute("user", user);
@@ -528,19 +507,19 @@ public class Main {
                     response.redirect("/invalid");
                 }
             }
-            else if(user==null) {
+            else{
                 response.redirect("/invalid");
             }
 
         });
 
         before("/userlist",(request, response) -> {
-            UserServices u=new UserServices();
+            //UserServices u=new UserServices();
             User user =null;
             String cook=request.cookie("test");
             System.out.println("El cookie: "+request.cookie("test"));
-            if(u.getUser(cook)!=null){
-                user=u.getUser(cook);
+            if(cook != null && !cook.isEmpty()){
+                user=UserServices.getInstancia().find(cook);
                 System.out.println(user.isAdministrator());
                 request.session(true);
                 request.session().attribute("user", user);
@@ -549,19 +528,19 @@ public class Main {
                     response.redirect("/invalid");
                 }
             }
-            else if(user==null) {
+            else{
                 response.redirect("/invalid");
             }
 
         });
 
         before("/product/(:id)(*)",(request, response) -> {
-            UserServices u=new UserServices();
+            //UserServices u=new UserServices();
             User user =null;
             String cook=request.cookie("test");
             System.out.println("El cookie: "+request.cookie("test"));
-            if(u.getUser(cook)!=null){
-                user=u.getUser(cook);
+            if(cook != null && !cook.isEmpty()){
+                user=UserServices.getInstancia().find(cook);
                 System.out.println(user.isAdministrator());
                 request.session(true);
                 request.session().attribute("user", user);
@@ -570,19 +549,19 @@ public class Main {
                     response.redirect("/invalid");
                 }
             }
-            else if(user==null) {
+            else{
                 response.redirect("/invalid");
             }
 
         });
 
         before("/product",(request, response) -> {
-            UserServices u=new UserServices();
+            //UserServices u=new UserServices();
             User user =null;
             String cook=request.cookie("test");
             System.out.println("El cookie: "+request.cookie("test"));
-            if(u.getUser(cook)!=null){
-                user=u.getUser(cook);
+            if(cook != null && !cook.isEmpty()){
+                user=UserServices.getInstancia().find(cook);
                 System.out.println(user.isAdministrator());
                 request.session(true);
                 request.session().attribute("user", user);
@@ -591,17 +570,17 @@ public class Main {
                     response.redirect("/invalid");
                 }
             }
-            else if(user==null) {
+            else{
                 response.redirect("/invalid");
             }
 
         });
     }
 
-    public static User encontrarUser(String username){
+    /*public static User encontrarUser(String username){
         UserServices usuario =new UserServices();
         User user = usuario.getUser(username);
         return user;
-    }
+    }*/
 
 }
