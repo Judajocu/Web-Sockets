@@ -77,7 +77,7 @@
                          <#list art.getComments() as comm>
 
                              <#if userl??>
-                                 <#if userl.administrator || userl.getUsername() == art.getAuthor().getUsername()>
+                                 <#if userl.administrator || userl.getUsername() == comm.getAuthor().getUsername()>
                                     <a href="/product/delc/${comm.getId()?string["0"]}" class="especial"><i class="fa fa-close"></i></a>
                                     <a href="/product/editc/${comm.getId()?string["0"]}" class="especial"><i class="fa fa-edit"></i></a>
                                  </#if>
