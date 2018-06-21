@@ -26,7 +26,7 @@ public class UserServices extends DatabaseService<User> {
 
     /**
      *
-     * @param nombre
+     * @param username
      * @return
      */
 

@@ -16,9 +16,9 @@ public class Product implements Serializable {
     @ManyToOne()
     private User Author;
     private Date DateTime;
-    @ManyToMany()
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private List<Comment> comments;
-    @ManyToMany()
+    @OneToMany()
     private List<Tag> tags;
 
     public Product(long id, String title, String body, User author, Date dateTime, ArrayList<Comment> comments, ArrayList<Tag> tags) {
