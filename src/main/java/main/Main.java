@@ -712,6 +712,12 @@ public class Main {
             return new ModelAndView(attributes,"invalid.ftl");
         },motor);
 
+        get("/data/websocket", (request, response) -> {
+
+            Map<String, Object> mapa = new HashMap<>();
+            return new ModelAndView(mapa, "chat.ftl");
+        }, motor);
+
         before("/userlist/*",(request, response) -> {
             //UserServices u=new UserServices();
             User user =null;
